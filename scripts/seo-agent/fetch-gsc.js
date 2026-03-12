@@ -1,0 +1,79 @@
+const { google } = require('googleapis');
+const fs = require('fs');
+const path = require('path');
+
+const SITE_URL = process.env.GSC_SITE_URL || 'https://safebathgrabbar.com/';
+const DATA_DIR = path.join(__dirname, '../../seo-data');
+
+function getDateRange(daysBack, length = 28) {
+  const end = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
+  const start = new Date(end.getTime() - length * 24 * 60 * 60 * 1000);
+  return {
+    startDate: start.toISOString().split('T')[0],
+    endDate: end.toISOString().split('T')[0],
+  };
+}
+
+async function getAuthClient() {
+  const key = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+  if (!key) {
+    throw new Error(
+      'GOOGLE_SERVICE_ACCOUNT_KEY is not set. See scripts/seo-agent/SETUP.md.'
+    );
+  }
+  const credentials = JSON.parse(key);
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/webmasters.readonly'],
+  });
+  return auth.getClient();
+}
+
+async function query(sc, dates, dimensions, rowLimit = 500) {
+  const res = await sc.searchAnalytics.query({
+    siteUrl: SITE_URL,
+    requestBody: { ...dates, dimensions, rowLimit },
+  });
+  return res.data.rows || [];
+}
+
+async function fetchSearchConsoleData() {
+  const auth = await getAuthClient();
+  const sc = google.searchconsole({ version: 'v1', auth });
+
+  const current = getDateRange(1, 28);   // last 28 days
+  const prior = getDateRange(29, 28);    // 28 days before that
+
+  console.log(`Fetching current period: ${current.startDate} → ${current.endDate}`);
+  console.log(`Fetching prior period:   ${prior.startDate} → ${prior.endDate}`);
+
+  const [byPage, byQuery, priorByPage] = await Promise.all([
+    query(sc, current, ['page']),
+    query(sc, current, ['query']),
+    query(sc, prior, ['page']),
+  ]);
+
+  const data = {
+    fetchedAt: new Date().toISOString(),
+    currentPeriod: current,
+    priorPeriod: prior,
+    byPage,
+    byQuery,
+    priorByPage,
+  };
+
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+
+  const latestPath = path.join(DATA_DIR, 'latest.json');
+  if (fs.existsSync(latestPath)) {
+    const prev = JSON.parse(fs.readFileSync(latestPath, 'utf8'));
+    const archiveName = prev.fetchedAt.split('T')[0] + '.json';
+    fs.copyFileSync(latestPath, path.join(DATA_DIR, archiveName));
+  }
+
+  fs.writeFileSync(latestPath, JSON.stringify(data, null, 2));
+  console.log(`Fetched ${byPage.length} pages, ${byQuery.length} queries`);
+  return data;
+}
+
+module.exports = { fetchSearchConsoleData };

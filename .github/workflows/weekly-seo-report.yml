@@ -1,0 +1,42 @@
+name: Weekly SEO Report
+
+on:
+  schedule:
+    # Every Tuesday at 9am ET (13:00 UTC)
+    - cron: '7 13 * * 2'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI anytime
+
+jobs:
+  seo-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: scripts/seo-agent
+
+      - name: Run SEO agent
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          GSC_SITE_URL: https://safebathgrabbar.com/
+        run: node index.js
+        working-directory: scripts/seo-agent
+
+      - name: Commit report and data
+        run: |
+          git config user.name "SafeBath SEO Agent"
+          git config user.email "seo-agent@safebathgrabbar.com"
+          git add seo-reports/ seo-data/
+          git diff --staged --quiet || git commit -m "Weekly SEO report $(date +%Y-%m-%d)"
+          git push

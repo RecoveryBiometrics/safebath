@@ -1,3 +1,11 @@
 .env
 .mcp.json
 .claude.json
+
+# SEO agent credentials — never commit these
+scripts/seo-agent/.env
+*.credentials.json
+.gsc-credentials.json
+
+# Raw GSC data files (committed via GitHub Actions, not manually)
+seo-data/*.json

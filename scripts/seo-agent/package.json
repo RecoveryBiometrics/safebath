@@ -1,0 +1,14 @@
+{
+  "name": "safebath-seo-agent",
+  "version": "1.0.0",
+  "description": "Weekly SEO reporting agent for safebathgrabbar.com",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node -e \"require('./analyze'); console.log('analyze.js OK')\""
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "googleapis": "^144.0.0"
+  }
+}

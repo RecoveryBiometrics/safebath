@@ -98,3 +98,4 @@
 | `ROADMAP.md` | Full execution plan with completed/pending items |
 | `safebathgrabbar-seo-report.md` | 90-day SEO audit, page drafts, title/meta strategy |
 | `memory/MEMORY.md` | Claude's persistent notes across sessions |
+| `SEO-CHANGELOG.md` | Every SEO change with deploy date + when to check results — **read before making SEO changes** |
