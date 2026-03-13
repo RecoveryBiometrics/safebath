@@ -29,8 +29,8 @@ async function getAuthClient() {
   return auth.getClient();
 }
 
-async function query(sc, dates, dimensions, rowLimit = 500) {
-  const res = await sc.searchAnalytics.query({
+async function query(wm, dates, dimensions, rowLimit = 500) {
+  const res = await wm.searchanalytics.query({
     siteUrl: SITE_URL,
     requestBody: { ...dates, dimensions, rowLimit },
   });
@@ -39,7 +39,7 @@ async function query(sc, dates, dimensions, rowLimit = 500) {
 
 async function fetchSearchConsoleData() {
   const auth = await getAuthClient();
-  const sc = google.searchconsole({ version: 'v1', auth });
+  const wm = google.webmasters({ version: 'v3', auth });
 
   const current = getDateRange(1, 28);   // last 28 days
   const prior = getDateRange(29, 28);    // 28 days before that
@@ -48,9 +48,9 @@ async function fetchSearchConsoleData() {
   console.log(`Fetching prior period:   ${prior.startDate} → ${prior.endDate}`);
 
   const [byPage, byQuery, priorByPage] = await Promise.all([
-    query(sc, current, ['page']),
-    query(sc, current, ['query']),
-    query(sc, prior, ['page']),
+    query(wm, current, ['page']),
+    query(wm, current, ['query']),
+    query(wm, prior, ['page']),
   ]);
 
   const data = {
