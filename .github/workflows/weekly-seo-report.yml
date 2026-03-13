@@ -7,6 +7,9 @@ on:
   workflow_dispatch:
     # Allow manual trigger from GitHub Actions UI anytime
 
+permissions:
+  contents: write
+
 jobs:
   seo-report:
     runs-on: ubuntu-latest
