@@ -198,6 +198,68 @@ _Expand from regional installer to national lead generation platform_
 
 ---
 
+### Who to Target as Lead Recipients
+
+**The answer is NOT the companies with the best websites.** SimplyGrabBars and OC Grab Bars already have their own lead gen — they don't need you and won't pay well.
+
+**The answer is NOT the completely dead businesses either.** If a site is down and no one answers, they can't fulfill leads.
+
+**The sweet spot: Operationally proven, digitally invisible.**
+
+Look for companies that have:
+- Been in business 10–25 years
+- Word-of-mouth reputation and PT/OT referrals
+- Decent offline reviews but almost no Google presence
+- A weak, dated, or barely-there website
+- No blog, no city pages, no schema — surviving entirely on referrals
+
+These companies CAN do the work. They just can't find customers online. That's exactly where you step in.
+
+**Best targets from our research (operationally strong, digitally weak):**
+
+| Company | Market | Why They're the Sweet Spot |
+|---|---|---|
+| Grab Bar Guys Inc | Boca Raton FL | 20 years, Moen partner, zero digital footprint |
+| NMB Grab Bar Guy | Myrtle Beach SC | 18 years installing, site is a liability not an asset |
+| Get a Grip Avoid a Slip | Charlotte NC | 40-year contractor, one-page website |
+| Grab Bar Guy AZ | Tucson AZ | Since 1999, PT/OT referred, dated site with no SEO |
+| The Grab Bar Guy FL | Sarasota FL | 25 years, ownership changed 2024, digital declining |
+| Texas Senior Safety | TX statewide | RN-credentialed, spread across 4 cities, can't own any |
+| Ohio Walk-in Showers | Cleveland OH | Government contracts, since 2005, timeout on site fetch |
+
+In markets with **no established installer found** (Prescott AZ, Hilton Head SC, Palm Springs CA), find a skilled general handyman and onboard them as a SafeBath network partner — they get the brand, the leads, and the backend. You get the revenue.
+
+---
+
+### How to Find and Recruit Installers
+
+**Search sources (in priority order):**
+
+1. **NAHB CAPS Directory** — nahb.org/caps → search by zip code → these are certified Aging in Place specialists, the highest-quality partners
+2. **Google Maps** — search "grab bar installation [city]" — call the 3-star and 4-star results, not the 5-star (5-star = established, doesn't need you)
+3. **Angi / Thumbtack** — search "grab bar installation" or "aging in place" by city — filter for small operators with fewer than 50 reviews
+4. **OT/PT clinics** — call 5 occupational therapy practices in the target city and ask "who do you refer patients to for grab bar installation?" — these referrals are the most trusted operators in any market
+5. **Facebook Groups** — search "handyman [city]", "home services [city]", "aging in place [state]"
+6. **Nextdoor Neighborhood Favorites** — search for home services in the target neighborhood
+7. **Direct outreach** — email/call the companies on our weak-site list above — they're exactly the right profile
+
+**The pitch (keep it simple):**
+
+> "I run a senior safety website that's ranking for grab bar searches in your area. I'm getting more inquiries than I can handle. I'd like to send you the first 5 leads at no charge — if you close them, we set up a simple pay-per-lead arrangement. No contracts, no commitment to start."
+
+First 5 leads free eliminates all objections. If they can close $199–$300 jobs from warm inbound leads, they'll pay $25–$50 per lead happily.
+
+**Partner agreement (simple, one page):**
+- SafeBath sends lead via GHL (name, phone, city, service needed)
+- Partner has 2-hour response window (leads go cold fast)
+- Partner pays $X per lead OR 10–15% of job value — decide model first
+- Partner must request a Google review from every SafeBath lead
+- Either party can exit with 30 days notice
+
+---
+
+---
+
 ### Top 30 US Markets — Senior Population Rankings
 
 | Rank | City | State | % 65+ | Notes |
@@ -404,16 +466,139 @@ The highest-reviewed installers in every market hold CAPS (Certified Aging in Pl
 
 ---
 
+### Installer Competitive Analysis — Website Deep Dive
+
+_Fetched March 2026. Used to identify content gaps and outrank difficulty per market._
+
+---
+
+#### 🔴 Hard to Outrank (but still beatable on content)
+
+**SimplyGrabBars — Tampa/FL statewide** | simplygrabbars.com
+- Site: Modern Elementor build, 7 FL regional zones, active blog
+- Google: Displays reviews prominently; JSON-LD schema present
+- Content gaps: **No pricing shown. No CAPS cert. No license number. Blog posts are broad safety topics, not city+service keyword pages.** Heavy JavaScript may hurt crawlability.
+- How to beat: City-specific pages with pricing + CAPS messaging will outrank their zone-based approach on long-tail local queries
+
+**OC Grab Bars — Orange County, CA** | ocgrabbars.com *(the gold standard)*
+- Site: Modern, 34+ city pages, CAPS+NHAB certified, $250 pricing shown, blog, schema — best site in the dataset
+- Reviews: 102 Yelp, 74 Birdeye, 5-star both
+- Content gaps: **FAQ is only 9 questions. Blog is minimal. No video content. No schema on service/city subpages.**
+- How to beat: Only with serious paid media or a local partner with 50+ reviews. Do not prioritize Orange County CA early.
+
+---
+
+#### 🟡 Medium Difficulty — Beatable with Good Content
+
+**Dr. Grab Bar — Sarasota/Bradenton, FL** | drgrabbars.com
+- Site: Modern, professional, $249 package pricing shown, lifetime warranty
+- Content gaps: **Only 5 city pages for all of SW Florida. Zero blog. No schema visible. No CAPS cert. "Certified Home Advisor Installer" is not an industry-recognized credential.**
+- How to beat: Build 20+ Sarasota/Manatee/Charlotte County city pages, add a blog, target "grab bar installation [neighborhood]" terms they're not covering
+
+**Mr. Grab Bar — Naples/FL network** | mrgrabbar.com
+- Site: Dated Shopify (Flex 5.5.0 theme). Looks like a product store, not a local service.
+- Content gaps: **Location "pages" are dropdown values, not real crawlable pages — they have ZERO local SEO value. No blog. No visible trust signals on the site itself. No pricing.**
+- How to beat: Any real city+service page structure beats their fake location pages. Despite 233 Birdeye reviews and 145,000 bars installed, the website is technically weak. Target their Naples, Ft. Myers, Cape Coral keywords directly.
+
+**Grab Bars, Etc. — Sun City/Phoenix, AZ** | grabbarsetc.com
+- Site: Divi WordPress — heavy JavaScript, content not rendering in raw HTML (bad for SEO crawlers)
+- Content gaps: **JavaScript-dependent content = Google may not be indexing it fully. No visible blog in raw HTML. No city pages rendering. 28-year brand surviving on reputation, not search.**
+- How to beat: A clean, fast, static site with Sun City + Phoenix metro city pages will outrank a slow JS-heavy site on most long-tail queries
+
+**Texas Senior Safety — San Antonio/Houston/Austin/DFW** | txseniorsafety.com
+- Site: Modern WordPress, 4 city pages, BBB accredited, RN credential (Ken Elkins), 8+ testimonials
+- Content gaps: **Gmail contact email (unprofessional signal). Obfuscated JavaScript hurts crawlability. No CAPS cert. No pricing. Blog exists but depth unknown. Spread thin across 4 massive cities — can't deeply own any.**
+- How to beat: Build 10+ neighborhood pages within any single TX city (e.g., "grab bar installation The Woodlands TX," "grab bar installation Katy TX") — they won't have those
+
+**3 Birds Accessibility — Pittsburgh, PA** | 3birdsaccessibility.com
+- Site: Modern, BBB accredited, PA license # shown, 6 location pages, 9 service categories
+- Content gaps: **Only 3 blog posts. No pricing. No schema on service pages. Spreading across 6 cities means no city is deeply covered. No CAPS cert.**
+- How to beat: Own Pittsburgh with 15+ neighborhood pages + a content-rich blog targeting "grab bar installation cost Pittsburgh" and similar — they won't rank for those
+
+---
+
+#### 🟢 Easy — Minimal Digital Presence
+
+**Grab Bar Guys Inc — Boca Raton, FL** | grabbarguys.com
+- Site: Generic template, no city pages, no blog, no pricing, no testimonials
+- Content gaps: **Everything. No blog, no city pages for Delray/Boynton/Broward, no schema, no pricing, no certifications visible.** 20-year brand with a 2010-era digital presence.
+- How to beat: Any structured city+service page targeting Palm Beach County terms beats them immediately
+
+**Grab Bar Guy AZ — Tucson, AZ** | grabbarguyaz.com
+- Site: Dated, generic page builder, no city pages, no pricing, no blog
+- Content gaps: **No blog, no schema, no NAP consistency, no city pages for Oro Valley/Green Valley/Marana/Sahuarita — all suburbs he serves but doesn't target digitally**
+- How to beat: 10 Tucson metro city pages + blog + pricing page = own the market in 90 days
+
+**Get a Grip Avoid a Slip — Charlotte/Lake Norman, NC** | getagripavoidaslip.com
+- Site: Effectively a one-page site — Divi theme with only a phone number in schema
+- Content gaps: **Literally everything. No service pages, no city pages, no blog, no address, no certifications, no testimonials.** Barry Duckworth's 40-year reputation carries zero digital weight.
+- How to beat: Any 5-page website beats this
+
+**NMB Grab Bar Guy — Myrtle Beach, SC** | nmbgrabbarguy.com
+- Site: Dated, basic, stock imagery, single geographic area, Gmail email
+- Content gaps: **No blog, no schema, no pricing, no city pages, no testimonials, no certifications visible.** In the #1 fastest-growing senior metro in the US.
+- How to beat: Build pages for Myrtle Beach, Conway, Surfside Beach, Pawleys Island, Murrels Inlet — he covers none of them. This market is functionally undefended.
+
+**Port St. Lucie Grab Bar Specialists — Port St. Lucie, FL** | portstluciegrabbars.com
+- Site: Divi theme with almost no rendered content — looks like an abandoned or minimally maintained site
+- Content gaps: **No phone number visible, no address, no testimonials, no blog, no pricing. Strong domain name, empty website.**
+- How to beat: Immediately — any real page beats this
+
+**ADA Grab Bars & Safety Rails — Las Vegas, NV** | adagrabbarssafetyrails.com
+- Site: ECONNREFUSED — site is unreachable
+- Reviews: Near zero despite owning multiple domains
+- Content gaps: **Site is down. Zero reviews. 101,000+ seniors in Las Vegas with no functioning specialist website.**
+- How to beat: Get one partner with a working phone number and 10 Google reviews and the market flips
+
+**The Grab Bar Guy FL — Sarasota, FL** | thegrabbarguyfl.com
+- Site: Functional but minimal — no city pages, no pricing, no testimonials, no blog
+- Content gaps: **Ownership transferred 2024 — active marketing has likely dropped. No city-specific landing pages despite "Punta Gorda to Sun City" service area claim.**
+- How to beat: Build the city pages they don't have (Venice, North Port, Englewood, Osprey, Nokomis, Palmetto)
+
+**Arizona Grab Bar — Phoenix, AZ** | arizonagrabbar.com
+- Site: Dated, text-heavy, no city pages for Phoenix metro, no blog, no schema
+- Content gaps: **"The Valley's Most Trusted" claim with no digital evidence. No city pages for Chandler, Gilbert, Tempe, Glendale, Peoria, Scottsdale, Mesa — all part of their service area.**
+- How to beat: Build suburb-specific pages for Phoenix metro — they cover none of them
+
+**Grab Bar Plus — Clearwater, FL** | grabbarplus.com
+- Site: ECONNREFUSED — site down or unreachable
+- Owner: Gary Zimmerman, sole proprietor since 2005, not BBB accredited
+- How to beat: Site is unreachable — Clearwater/St. Pete is open
+
+**Tampa Stronghold Grab Bars — Wesley Chapel, FL** | tampastrongholdgrabbars.com
+- Site: ECONNREFUSED — site down or unreachable
+- How to beat: Site is unreachable — verify if still in business before pursuing as partner
+
+---
+
+### Content Gap Summary — What Every Competitor Is Missing
+
+These are the gaps that exist across nearly every market. SafeBath should build all of these for every target city:
+
+| Content Type | % of Competitors Missing It | Why It Matters |
+|---|---|---|
+| Blog / educational content | ~90% | Captures "how much does grab bar cost" + "best grab bar for shower" queries |
+| Transparent pricing page | ~95% | Ranks for "[city] grab bar installation cost" — high-intent queries |
+| Neighborhood-level city pages | ~85% | e.g., "grab bar installation Westchase Tampa" vs just "Tampa" |
+| FAQ schema markup | ~95% | Generates rich snippets in Google |
+| CAPS certification mention | ~85% | Top trust signal; top-ranked operators all have it |
+| Before/after photo gallery | ~80% | Conversion signal; also helps image search |
+| Video content | ~99% | Almost no one has it — YouTube can rank separately |
+| Schema on service+city pages | ~90% | areaServed, ServiceType, priceRange markup |
+
+---
+
 ### Action Items for Phase 8
 
-- [ ] Decide lead gen pricing model: pay-per-lead ($X flat) vs. % of job value
-- [ ] Recruit first partner in Prescott, AZ — search Angi, Thumbtack, local Facebook groups for handymen
-- [ ] Recruit first partner in Hilton Head, SC — same sourcing approach
-- [ ] Build GHL pipeline: New Lead → Geography Match → Partner Assigned → Job Won/Lost
-- [ ] Add Prescott AZ and Hilton Head SC cities to `constants.ts`
-- [ ] Update page templates: CTA shifts to "Get Connected to a Local Installer" for out-of-area markets
-- [ ] Draft partner agreement template (lead fee, response time SLA, review request requirement)
-- [ ] After first two markets: move to Las Vegas NV, Palm Springs CA, Myrtle Beach SC
+- [ ] Decide lead gen pricing model: pay-per-lead ($25–$50 flat) vs. % of job value (10–15%)
+- [ ] Draft one-page partner agreement template (response SLA, review request, exit clause)
+- [ ] Recruit first partner: search CAPS directory (nahb.org) for Myrtle Beach SC + Las Vegas NV
+- [ ] Call 3 OT/PT clinics in target markets — ask who they refer patients to
+- [ ] Add target cities to `constants.ts`: Myrtle Beach SC, Las Vegas NV, Prescott AZ, Hilton Head SC, Palm Springs CA, Boca Raton FL, Delray Beach FL, Clearwater FL, Charlotte NC, Tucson AZ
+- [ ] Build GHL pipeline: New Lead → Geography → Partner Assigned → Fulfilled / Lost
+- [ ] Update out-of-area page CTA: "Get Connected to a Local Installer — Free Consultation"
+- [ ] For every new city: add pricing page, blog post targeting "[city] grab bar cost", neighborhood sub-pages
+- [ ] Send first 5 leads free to any new partner — prove value before asking for payment
 
 ---
 
