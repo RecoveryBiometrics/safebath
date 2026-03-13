@@ -101,111 +101,40 @@ Mode is a decision to be made once the agent is running. Starting with Mode A is
 
 ---
 
-### Step 1 — Google Search Console API Access (BLOCKER)
-_Nothing else in this phase can happen without this_
+### Step 1 — Google Search Console API Access ⚠️ ONLY REMAINING BLOCKER
+_~10 minutes. Human action required. Everything else is already built._
 
-**What's needed:**
-- [ ] Create a Google Cloud project for SafeBath
-- [ ] Enable the Search Console API
-- [ ] Create OAuth 2.0 credentials (or service account if GSC supports it)
-- [ ] Authorize the credentials against `safebathgrabbar.com`'s Search Console property
-- [ ] Store credentials securely (env variable or secrets file — never committed to git)
+- [ ] Go to https://console.cloud.google.com → create project named `safebath-seo`
+- [ ] Search for **"Google Search Console API"** → Enable it
+- [ ] **IAM & Admin** → **Service Accounts** → Create → name it `seo-agent` → download the JSON key file
+- [ ] Go to https://search.google.com/search-console → `safebathgrabbar.com` → **Settings** → **Users and permissions** → Add the service account email with **Full** access
+- [ ] Go to https://github.com/RecoveryBiometrics/safebath → **Settings** → **Secrets and variables** → **Actions** → **New secret** → name: `GOOGLE_SERVICE_ACCOUNT_KEY` → paste the entire JSON key file contents
 
-**Human action required:** The business owner must authorize the OAuth consent screen once. After that, the agent runs without human involvement.
-
-**Credential storage:** `/home/williamcourterwelch/safebath/.gsc-credentials.json` (gitignored)
+Full walkthrough: `scripts/seo-agent/SETUP.md`
 
 ---
 
-### Step 2 — Build the Data-Pulling Script
+### Steps 2–5 — ✅ COMPLETE (Built March 12, 2026)
 
-**What it fetches from Search Console API:**
-- Clicks, impressions, CTR, average position — by page URL and by query
-- Date range: last 28 days vs. prior 28 days (tracks trends, not just snapshots)
-- Filters: site = `safebathgrabbar.com`
+The agent is fully built and scheduled. Once the credential above is added, it runs automatically.
 
-**Output:** A structured JSON file saved to `/home/williamcourterwelch/safebath/seo-data/latest.json`
-
-- [ ] Write `scripts/fetch-search-console.js` (Node.js, googleapis SDK)
-- [ ] Test locally with real credentials
-- [ ] Verify data matches what's visible in Search Console UI
-
----
-
-### Step 3 — Build the Analysis Layer
-
-**What the agent analyzes:**
-- Pages that gained or lost position week-over-week (flags drops > 3 positions)
-- Queries with high impressions but low CTR (title/meta opportunity)
-- Pages near page 1 (positions 8–15) that could be pushed with internal links or content
-- New queries emerging that have no dedicated page (gap detection)
-- Compare against `SEO-CHANGELOG.md` — flag changes that have had < 8 weeks to take effect
-
-- [ ] Write analysis logic (Claude agent reads `latest.json`, compares to `baseline.json`)
-- [ ] Define thresholds: what counts as "significant" change worth flagging
-- [ ] Generate recommendations in structured format (JSON or Markdown)
+| File | What it does |
+|------|-------------|
+| `scripts/seo-agent/fetch-gsc.js` | Pulls clicks, impressions, CTR, position by page + query (last 28 days vs. prior 28 days) |
+| `scripts/seo-agent/analyze.js` | Finds wins, drops, opportunities (pos 8–20), and content gaps (high impression / zero click queries) |
+| `scripts/seo-agent/report.js` | Generates `seo-reports/YYYY-MM-DD.md` with pending-change safeguards from `SEO-CHANGELOG.md` |
+| `scripts/seo-agent/index.js` | Main runner — orchestrates all three steps |
+| `.github/workflows/weekly-seo-report.yml` | GitHub Actions cron — **every Tuesday 9am ET**, commits report automatically, no session required |
 
 ---
 
-### Step 4 — Build the Report
+### Step 6 — Delivery Method (Decide When Ready)
 
-**Report format:** Markdown file saved to `/home/williamcourterwelch/safebath/seo-reports/YYYY-MM-DD.md`
+Currently: **Mode A — report saved to `seo-reports/` and committed to GitHub**. Open the file in any session to review.
 
-**Report sections:**
-1. Summary: clicks, impressions, CTR, avg position vs. prior period
-2. Wins: pages that moved up significantly
-3. Drops: pages that fell — with diagnosis
-4. Opportunities: high-impression / low-CTR pages with suggested title/meta rewrites
-5. Gaps: queries with no matching page (top 10 by impression volume)
-6. Pending changes: list from `SEO-CHANGELOG.md` with time elapsed + "too early to evaluate" flag
-7. Recommended actions: ranked by estimated impact
+To add email or GHL delivery, uncomment the relevant block in `scripts/seo-agent/index.js`.
 
-**Delivery options (decide before building):**
-- [ ] Option A: File only — human opens Claude and reviews the report file
-- [ ] Option B: Email via GHL — agent sends report to owner's email on schedule
-- [ ] Option C: GHL conversation message — report delivered as a CRM message
-
----
-
-### Step 5 — Schedule the Agent
-
-- [ ] Create a cron job that runs the fetch + analysis + report on a schedule
-- [ ] Recommended: every Tuesday at 7am (consistent day makes trends readable)
-- [ ] Use `CronCreate` tool in Claude Code or GitHub Actions workflow
-- [ ] First run: retroactively establish baseline from Dec 2025 – Mar 2026 data (already documented)
-
----
-
-### Step 6 — Human-in-the-Loop Approval (Mode B only)
-
-_Skip this step if staying with Mode A (report only)_
-
-- [ ] Agent writes recommended changes to a `proposed-changes/` folder as individual files
-- [ ] Each file describes: what page, what change, why, expected impact
-- [ ] Human reviews proposed changes in a Claude session
-- [ ] Human approves specific items → agent commits them to `dev`
-- [ ] Vercel preview auto-deploys → human merges to `main`
-
-**What can be auto-proposed (low risk):**
-- New city pages (just adds to `constants.ts`)
-- Meta description rewrites for underperforming pages
-- Internal link additions
-
-**What always requires human review:**
-- Changes to existing page copy
-- New hub pages or structural changes
-- Any change that contradicts a pending item in `SEO-CHANGELOG.md`
-
----
-
-### Decision Needed Before Building
-
-**Which delivery method for the report?** (Step 4)
-- File only → simplest, requires you to open Claude to see it
-- Email via GHL → passive, arrives in your inbox, no action needed to receive it
-- GHL message → in your CRM alongside leads
-
-**Mode A or B?** Start with A (report only), decide after first few reports whether to add auto-building.
+**Mode B (auto-propose changes):** Can be added later — agent proposes changes to a review queue, human approves before anything goes to `dev`.
 
 ---
 
