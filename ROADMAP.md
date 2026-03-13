@@ -184,16 +184,33 @@ _Biggest multiplier for local SEO and conversion_
 
 ---
 
-## Phase 5 — GBP Dominance + Daily Posting Agent
-_Automated daily posting via Google Business Profile API — no GHL middleman_
+## Phase 5 — Reddit-Powered Content Engine (Blog + GBP Posts)
+_One source of truth: real questions from Reddit → blog posts on safebathgrabbar.com + daily GBP posts_
 
-> **Goal:** Make SafeBath the most active, most reviewed, most complete GBP listing in every service area. Activity signals (posts, photos, Q&A) directly influence Map Pack rankings.
+> **Goal:** Reddit is the single content source for everything. Real people asking real questions about grab bars, bathroom safety, and aging in place. Every question becomes a blog post AND a GBP post. No invented content, no generic AI filler.
+
+### How It Works
+
+```
+Reddit scraper (daily via GitHub Actions)
+    ↓
+Scans subreddits + keywords for new questions/discussions
+    ↓
+Agent categorizes each finding: blog post, GBP post, or both
+    ↓
+┌─────────────────────────────┬──────────────────────────────┐
+│ BLOG (long-form)            │ GBP POST (short-form)        │
+│ Markdown file → dev branch  │ Posted via GBP API daily     │
+│ Human reviews → merge →live │ 7-day rotation from queue    │
+│ SEO agent tracks rankings   │ Activity signal for Map Pack │
+└─────────────────────────────┴──────────────────────────────┘
+```
 
 ### Step 1 — Connect the Google Business Profile API ⚠️ HUMAN ACTION REQUIRED
 
-_~15 minutes. One-time setup. See instructions below._
+_~15 minutes. One-time setup._
 
-1. [ ] Go to https://console.cloud.google.com → select the `safebath-seo` project (already created for Search Console)
+1. [ ] Go to https://console.cloud.google.com → select the `safebath-seo` project
 2. [ ] Search for **"My Business Business Information API"** → Enable it
 3. [ ] Search for **"My Business Account Management API"** → Enable it
 4. [ ] Search for **"Business Profile Performance API"** → Enable it
@@ -203,71 +220,18 @@ _~15 minutes. One-time setup. See instructions below._
 8. [ ] **Users** → **Add user** → paste the service account email → set role to **Manager**
 9. [ ] Verify access: the service account should now be able to read/write the GBP listing
 
-> **Note:** The same service account key already stored in GitHub (`GOOGLE_SERVICE_ACCOUNT_KEY`) will work for GBP too — no new secret needed. The key just needs the additional API scopes enabled (step 2–4) and GBP user access (step 8).
+> **Note:** The same service account key already stored in GitHub (`GOOGLE_SERVICE_ACCOUNT_KEY`) will work for GBP too — no new secret needed.
 
 ### Step 2 — GBP Completeness Audit (Claude does this)
 
 - [ ] Pull current GBP listing via API — check every field
-- [ ] Fill all missing fields: services list, service area (all 8 counties), business description with keywords, hours, attributes, appointment link, website URL
-- [ ] Add primary category: "Grab Bar Installation Service" or closest match
-- [ ] Add secondary categories: "Bathroom Remodeler", "Home Safety Equipment Supplier", "Accessibility Equipment Supplier"
-- [ ] Seed Q&A with top 10 questions people actually search for:
-  - How much does grab bar installation cost?
-  - Do you install in [city]?
-  - Are your grab bars ADA compliant?
-  - Do you offer a warranty?
-  - Can you install grab bars in tile?
-  - Does Medicare cover grab bar installation?
-  - How long does installation take?
-  - Do I need a permit for grab bars?
-  - What's the weight capacity?
-  - Do you serve [county]?
+- [ ] Fill all missing fields: services list, service area (all counties), business description, hours, attributes, appointment link, website URL
+- [ ] Add primary + secondary categories
+- [ ] Seed Q&A with top 10 questions people actually search for
 
-### Step 3 — Daily Posting Agent (Claude builds this)
+### Step 3 — Reddit Scraper Agent (Claude builds this)
 
-Runs daily via GitHub Actions. Rotates through 7 content types:
-
-| Day | Content Type | Example |
-|-----|-------------|---------|
-| Monday | Before/after install photo + city name | "Just installed 3 grab bars in a West Chester bathroom — same-day service, lifetime warranty" |
-| Tuesday | Safety stat / fall prevention fact | "1 in 4 adults 65+ falls each year. 80% of falls happen in the bathroom." |
-| Wednesday | Service spotlight | "Shower grab bars starting at $199 — ADA-compliant, professionally anchored" |
-| Thursday | Service area callout | "Serving Lansdale, Horsham, and all of Montgomery County PA" |
-| Friday | Offer/CTA | "Call (610) 840-6371 for same-week scheduling" |
-| Saturday | Customer story or testimonial | Real review or anonymized story |
-| Sunday | Educational tip | "Suction cup grab bars fail under load. Wall-mounted bars anchored to studs hold 500+ lbs." |
-
-**Content source:** Reddit scraper (see Phase 5.5) feeds real questions into the content calendar. Agent pulls from a queue of pre-approved content topics.
-
-**Photo strategy:** 2–3 real job photos per week uploaded to GBP. Before/after pairs. Google tracks photo views and engagement — this is a ranking signal.
-
-### Step 4 — GBP Insights in Weekly Report
-
-Add to the existing SEO agent report:
-- [ ] GBP views (search vs. maps)
-- [ ] GBP actions (calls, direction requests, website clicks)
-- [ ] Photo views vs. competitor average
-- [ ] Post engagement
-- [ ] Review count + average rating trend
-
----
-
-## Phase 5.5 — Blog + Reddit Content Engine
-_Real questions from real people → blog posts on safebathgrabbar.com + GBP posts_
-
-> **Goal:** Build topical authority on safebathgrabbar.com by answering the exact questions people are asking on Reddit and Google. Every blog post is a new search entry point.
-
-### Blog Architecture
-
-- [ ] Add `/blog` route to Next.js site
-- [ ] Blog posts stored as markdown files in `site/src/content/blog/` (no CMS needed)
-- [ ] Static generation at build time — fast, free, zero maintenance
-- [ ] Each post gets: title, meta description, schema markup, internal links to relevant service pages
-- [ ] Blog index page at `/blog` with category filtering
-
-### Reddit Scraper Agent
-
-Runs daily. Searches these subreddits + keywords:
+Runs daily via GitHub Actions. Searches these subreddits + keywords:
 
 **Subreddits:** r/AgingParents, r/eldercare, r/HomeImprovement, r/occupationaltherapy, r/CaregiverSupport, r/Aging, r/disability, r/PhysicalTherapy
 
@@ -275,11 +239,44 @@ Runs daily. Searches these subreddits + keywords:
 
 **What it does with findings:**
 1. Categorizes each: blog topic, GBP post topic, or both
-2. For blog topics: drafts a markdown blog post, commits to `dev` for review
-3. For GBP posts: adds to the daily posting queue
+2. For blog topics: drafts a full markdown blog post answering the real question, commits to `dev` for review
+3. For GBP posts: writes a short-form version (1500 char max) to a posting queue
 4. Weekly digest in SEO report: "5 new topics found, 2 blog posts drafted, 7 GBP posts queued"
 
-### Content Tiers
+### Step 4 — Blog on safebathgrabbar.com/blog (Claude builds this)
+
+- [ ] Add `/blog` route to Next.js site
+- [ ] Blog posts stored as markdown files in `site/src/content/blog/` (no CMS needed)
+- [ ] Static generation at build time — fast, free, zero maintenance
+- [ ] Each post gets: title, meta description, schema markup, internal links to relevant service pages
+- [ ] Blog index page at `/blog` with category filtering
+- [ ] Every post answers a real Reddit question — linked back to the original thread for authenticity
+
+### Step 5 — Daily GBP Posting Agent (Claude builds this)
+
+Runs daily via GitHub Actions. Posts to GBP from the Reddit-sourced queue:
+
+| Day | Content Type | Source |
+|-----|-------------|--------|
+| Monday | Before/after install photo + city name | Real job photos (Bill provides) |
+| Tuesday | Safety stat / fall prevention fact | Reddit questions about fall risks |
+| Wednesday | Service spotlight with pricing | Reddit questions about cost/options |
+| Thursday | Service area callout | Rotate through all served markets |
+| Friday | Offer/CTA with market-specific phone | Rotate markets |
+| Saturday | Answer a real question from Reddit | Direct Reddit Q&A format |
+| Sunday | Educational tip | Reddit misconceptions (e.g. suction cups) |
+
+**Photo strategy:** 2–3 real job photos per week uploaded to GBP. Before/after pairs. Google tracks photo views and engagement — this is a ranking signal.
+
+### Step 6 — GBP Insights in Weekly Report
+
+Add to the existing SEO agent report:
+- [ ] GBP views (search vs. maps)
+- [ ] GBP actions (calls, direction requests, website clicks)
+- [ ] Post engagement
+- [ ] Review count + average rating trend
+
+### Content Tiers (what the Reddit scraper looks for)
 
 **Tier 1 — High intent, converts directly:**
 - "How much does grab bar installation cost in [city]?"
@@ -298,16 +295,6 @@ Runs daily. Searches these subreddits + keywords:
 - "Medicare and Medicaid coverage for home safety modifications"
 - "Occupational therapist home assessment — what to expect"
 - "Fall prevention statistics 2026 — why bathrooms are the #1 risk"
-
-### Content Flow
-
-```
-Reddit questions → Agent categorizes → Blog drafts to dev → GBP posts daily
-                                              ↓
-                                    SEO agent tracks rankings
-                                              ↓
-                                    Weekly report shows what's working
-```
 
 ---
 
