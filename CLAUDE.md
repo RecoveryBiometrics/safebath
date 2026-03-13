@@ -7,18 +7,21 @@
 ## The Business
 - **Company:** SafeBath Grab Bar
 - **Website:** https://safebathgrabbar.com ← LIVE on this domain as of March 11, 2026
-- **Phone:** (610) 840-6371
-- **Service Area:** PA, DE, MD — suburban Philadelphia, Wilmington DE, Lancaster PA, suburban MD (Rockville, Bethesda, Silver Spring)
+- **Phone (PA/DE/MD):** (610) 840-6371
+- **Phone (Las Vegas NV):** (725) 425-7383
+- **Phone (Myrtle Beach SC):** (854) 246-2882
+- **Service Area:** PA, DE, MD, NV, SC — suburban Philadelphia, Wilmington DE, Lancaster PA, suburban MD, Las Vegas NV metro, Myrtle Beach SC area
 - **Core Services:** Grab bar installation, shower safety handles, bathtub rails, toilet grab bars, stair/garage railing installation, accessible shower seats
 - **Differentiators:** 20+ years experience, ADA-compliant, lifetime labor warranty, same-week scheduling, starts at $199
 
 ---
 
-## Current State (as of March 11, 2026)
+## Current State (as of March 13, 2026)
 - **Site is live** at safebathgrabbar.com — DNS pointed from Firebase to Vercel
-- **1,250 pages** deployed and indexed
-- **Phases 0, 1, and 2 complete** — see ROADMAP.md for full detail
-- **Next priority:** Real local content for top cities, then review collection (Phase 3-4)
+- **1,427 pages** deployed and indexed
+- **Phases 0, 1, 2, 2.5, and Phase 8 (initial) complete** — see ROADMAP.md for full detail
+- **National expansion started:** Las Vegas NV (Clark County, 10 cities) and Myrtle Beach SC (Horry County, 10 cities) live with market-specific phone numbers
+- **SEO Agent live:** running weekly Tuesdays 9am ET via GitHub Actions
 
 ---
 
@@ -26,9 +29,9 @@
 | System | Status | What It Does |
 |--------|--------|--------------|
 | Vercel | ✅ Live | Auto-deploys `main` branch on every push. Preview URL per branch. |
-| GitHub Actions | None yet | Planned for Phase 6 SEO agent |
+| GitHub Actions | ✅ Live | Weekly SEO report every Tuesday 9am ET |
 | GHL MCP | ✅ Connected | CRM, conversations, social posting, email templates |
-| Automated SEO Agent | 🔜 Planned | Will monitor Search Console, find gaps, build pages automatically |
+| SEO Agent | ✅ Live | Monitors Search Console, generates weekly reports to `seo-reports/` |
 
 ---
 
@@ -41,7 +44,7 @@
 ### Stack
 - Next.js 15 (App Router) + Tailwind CSS + shadcn/ui
 - No AI dependencies — Gemini removed March 2026
-- Static generation: 1,250 pages pre-built at deploy time
+- Static generation: 1,427 pages pre-built at deploy time
 - Sitemap: auto-generated from `constants.ts` at `/sitemap.xml`
 - robots.txt: auto-generated, allows all crawlers
 - llms.txt: at `/llms.txt` — helps AI models understand the business

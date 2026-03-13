@@ -1,6 +1,6 @@
 # SafeBath — AI Operations Roadmap
 
-Last updated: March 12, 2026
+Last updated: March 13, 2026
 
 ---
 
@@ -726,15 +726,19 @@ These are the gaps that exist across nearly every market. SafeBath should build 
 
 ### Action Items for Phase 8
 
+- [x] Add target cities to `constants.ts` — **Las Vegas NV (10 cities) and Myrtle Beach SC (10 cities) LIVE as of March 13, 2026**
+- [x] Market-specific phone numbers: (725) 425-7383 for LV, (854) 246-2882 for MB — routing to pages, Header, Footer, schema
+- [x] Call forwarding set up — both numbers forward to main line until partners are recruited
+- [x] Sitemap, llms.txt, nav updated automatically
 - [ ] Decide lead gen pricing model: pay-per-lead ($25–$50 flat) vs. % of job value (10–15%)
 - [ ] Draft one-page partner agreement template (response SLA, review request, exit clause)
 - [ ] Recruit first partner: search CAPS directory (nahb.org) for Myrtle Beach SC + Las Vegas NV
 - [ ] Call 3 OT/PT clinics in target markets — ask who they refer patients to
-- [ ] Add target cities to `constants.ts`: Myrtle Beach SC, Las Vegas NV, Prescott AZ, Hilton Head SC, Palm Springs CA, Boca Raton FL, Delray Beach FL, Clearwater FL, Charlotte NC, Tucson AZ
 - [ ] Build GHL pipeline: New Lead → Geography → Partner Assigned → Fulfilled / Lost
 - [ ] Update out-of-area page CTA: "Get Connected to a Local Installer — Free Consultation"
 - [ ] For every new city: add pricing page, blog post targeting "[city] grab bar cost", neighborhood sub-pages
 - [ ] Send first 5 leads free to any new partner — prove value before asking for payment
+- [ ] Add remaining target cities: Prescott AZ, Hilton Head SC, Palm Springs CA, Boca Raton FL, Delray Beach FL, Clearwater FL, Charlotte NC, Tucson AZ
 
 ---
 

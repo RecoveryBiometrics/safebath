@@ -118,6 +118,30 @@
 
 ---
 
+### 2026-03-13 — Phase 8: National Expansion — Las Vegas NV + Myrtle Beach SC
+
+**Type:** New market pages + multi-market phone routing
+
+**URLs affected:** `/bathroom-safety-las-vegas-nv*`, `/bathroom-safety-henderson-nv*`, `/bathroom-safety-north-las-vegas-nv*`, `/bathroom-safety-summerlin-nv*`, `/bathroom-safety-boulder-city-nv*`, `/bathroom-safety-enterprise-nv*`, `/bathroom-safety-spring-valley-nv-nv*`, `/bathroom-safety-paradise-nv*`, `/bathroom-safety-sunrise-manor-nv*`, `/bathroom-safety-mesquite-nv*`, `/bathroom-safety-clark-county-nv*`, `/bathroom-safety-myrtle-beach-sc*`, `/bathroom-safety-north-myrtle-beach-sc*`, `/bathroom-safety-conway-sc*`, `/bathroom-safety-surfside-beach-sc*`, `/bathroom-safety-murrells-inlet-sc*`, `/bathroom-safety-little-river-sc*`, `/bathroom-safety-garden-city-sc*`, `/bathroom-safety-carolina-forest-sc*`, `/bathroom-safety-loris-sc*`, `/bathroom-safety-aynor-sc*`, `/bathroom-safety-horry-county-sc*`
+
+**What was deployed:**
+- Clark County NV: 10 cities (Las Vegas, Henderson, North Las Vegas, Boulder City, Summerlin, Enterprise, Spring Valley, Paradise, Sunrise Manor, Mesquite)
+- Horry County SC: 10 cities (Myrtle Beach, North Myrtle Beach, Conway, Surfside Beach, Murrells Inlet, Little River, Garden City, Carolina Forest, Loris, Aynor)
+- ~177 new pages total (city pages + city×service pages + county pages + county×service pages)
+- Market-specific phone numbers on all new pages: (725) 425-7383 for NV, (854) 246-2882 for SC
+- Dynamic phone routing in Header, Footer, page CTAs, and JSON-LD schema
+- Nav dropdown and footer show shortened county names (no state suffix)
+- Updated llms.txt with new markets and phone numbers
+- Total site: 1,427 pages (up from 1,250)
+
+**Expected impact:** New market entry — these pages start from zero. Expect initial indexing within 1–2 weeks. Position movement in 8–12 weeks. Las Vegas and Myrtle Beach are identified as underserved markets with weak/no competition.
+
+**Check results:** Week of May 26, 2026
+
+**Status:** 🟡 Pending — deployed March 13, awaiting indexing
+
+---
+
 ## What's NOT Done Yet (Planned)
 
 | Item | Priority | Expected Impact |
