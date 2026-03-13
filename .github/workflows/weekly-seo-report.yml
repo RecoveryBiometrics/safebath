@@ -29,7 +29,7 @@ jobs:
       - name: Run SEO agent
         env:
           GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-          GSC_SITE_URL: https://safebathgrabbar.com/
+          GSC_SITE_URL: sc-domain:safebathgrabbar.com
         run: node index.js
         working-directory: scripts/seo-agent
 

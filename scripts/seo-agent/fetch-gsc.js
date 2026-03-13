@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = process.env.GSC_SITE_URL || 'https://safebathgrabbar.com/';
+const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com';
 const DATA_DIR = path.join(__dirname, '../../seo-data');
 
 function getDateRange(daysBack, length = 28) {
