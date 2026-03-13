@@ -84,5 +84,12 @@ To trigger manually at any time: GitHub → Actions → Weekly SEO Report → Ru
 
 ## Adding Email Delivery
 
-Once the agent is running, you can add email delivery via GHL.
-See the delivery section in `scripts/seo-agent/index.js` — commented out, ready to uncomment.
+Reports are emailed to bill@reiamplifi.com each week. To enable:
+
+1. Go to https://myaccount.google.com/apppasswords (you need 2FA enabled on the Google account)
+2. Create an app password — name it `safebath-seo-agent`
+3. Add two secrets to GitHub (**Settings** → **Secrets** → **Actions**):
+   - `SMTP_USER` — the Gmail address (e.g. `you@gmail.com`)
+   - `SMTP_PASS` — the 16-character app password from step 2
+
+If the secrets aren't set, the agent still runs and saves the report — it just skips sending the email.

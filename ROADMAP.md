@@ -80,10 +80,29 @@ _March 12, 2026 — confirmed by local SEO research_
 
 ---
 
-## 🔴 Phase 6 — Search Console Agent (NOW HIGHEST PRIORITY)
+## 🔴 #1 BLOCKER — Enable Weekly SEO Report Email
+
+_~5 minutes. Human action required. Code is already built._
+
+The SEO agent is fully built and running weekly. Email delivery to bill@reiamplifi.com is coded and ready — just needs two GitHub secrets added.
+
+### Steps:
+
+1. [ ] Go to https://myaccount.google.com/apppasswords (must have 2FA enabled on the Google account)
+2. [ ] Create an app password — name it `safebath-seo-agent`
+3. [ ] Go to https://github.com/RecoveryBiometrics/safebath → **Settings** → **Secrets and variables** → **Actions**
+4. [ ] Add secret: `SMTP_USER` → your Gmail address
+5. [ ] Add secret: `SMTP_PASS` → the 16-character app password from step 2
+6. [ ] Test: **Actions** → **Weekly SEO Report** → **Run workflow** → check bill@reiamplifi.com inbox
+
+Full setup details: `scripts/seo-agent/SETUP.md`
+
+---
+
+## 🔴 Phase 6 — Search Console Agent (BUILT — credential already added)
 _Automated SEO measurement — replaces manual guesswork with data_
 
-> **Why this is #1:** Every SEO change we make is currently invisible until someone manually pulls a Search Console report. Without measurement, we're flying blind and can't prove ROI. This gets built before anything else.
+> **Agent is live and running.** First report generated March 13, 2026. Email delivery coded — just needs SMTP secrets added (see blocker above).
 
 ---
 

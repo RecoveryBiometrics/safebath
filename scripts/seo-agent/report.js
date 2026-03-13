@@ -12,13 +12,44 @@ const BASELINE = {
   period: 'Dec 2025 – Mar 2026',
 };
 
-// All SEO changes that need time to take effect — update this when new changes deploy
-const PENDING_CHANGES = [
-  { label: 'Phase 1 & 2: new pages, metas, trust bar, CTA', deployed: '2026-03-11' },
-  { label: 'Internal linking: same-county neighbors fix', deployed: '2026-03-12' },
-  { label: 'Hub-and-spoke links (grab bar pages → hub)', deployed: '2026-03-12' },
-  { label: 'Hub page schema: HomeAndConstructionBusiness + areaServed', deployed: '2026-03-12' },
-];
+const CHANGELOG_PATH = path.join(__dirname, '../../SEO-CHANGELOG.md');
+
+/**
+ * Parse SEO-CHANGELOG.md to extract deployed changes and their status.
+ * Each entry starts with ### YYYY-MM-DD — Title and has **Status:** line.
+ */
+function parsePendingChanges() {
+  if (!fs.existsSync(CHANGELOG_PATH)) {
+    console.warn('SEO-CHANGELOG.md not found — pending changes section will be empty');
+    return [];
+  }
+
+  const content = fs.readFileSync(CHANGELOG_PATH, 'utf8');
+  const entries = [];
+  const entryPattern = /^### (\d{4}-\d{2}-\d{2}) — (.+)$/gm;
+
+  let match;
+  while ((match = entryPattern.exec(content)) !== null) {
+    const deployed = match[1];
+    const label = match[2].trim();
+    const entryStart = match.index;
+
+    // Find the status line within this entry (before the next ### or end of file)
+    const nextEntry = content.indexOf('\n### ', entryStart + 1);
+    const entryBlock = nextEntry !== -1
+      ? content.slice(entryStart, nextEntry)
+      : content.slice(entryStart);
+
+    const statusMatch = entryBlock.match(/\*\*Status:\*\*\s*(.+)/);
+    const status = statusMatch ? statusMatch[1].trim() : '';
+
+    // Only include entries that are still pending (not marked ✅ complete)
+    const isComplete = status.startsWith('✅') && /complete|done|assessed/i.test(status);
+    entries.push({ label, deployed, status, isComplete });
+  }
+
+  return entries;
+}
 
 function weeksSince(dateStr) {
   const ms = Date.now() - new Date(dateStr).getTime();
@@ -36,7 +67,7 @@ function pctChange(current, prior) {
   return ` (${sign}${pct.toFixed(1)}%)`;
 }
 
-function generateReport(data, analysis) {
+function generateReport(data, analysis, interpretation, reviewResult) {
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
@@ -106,16 +137,96 @@ function generateReport(data, analysis) {
     md += '\n';
   }
 
-  // Pending changes status
-  md += `## Pending Changes — Do Not Reverse Yet\n\n`;
-  md += `| Change | Deployed | Weeks Elapsed | Evaluation Status |\n`;
-  md += `|--------|----------|---------------|-------------------|\n`;
-  for (const c of PENDING_CHANGES) {
-    const weeks = weeksSince(c.deployed);
-    const status = weeks < 8 ? '🟡 Too early to evaluate' : weeks < 12 ? '🔵 Evaluating' : '✅ Ready to assess';
-    md += `| ${c.label} | ${c.deployed} | ${weeks} | ${status} |\n`;
+  // --- INTERPRETATION: What's working and why ---
+  if (interpretation && reviewResult) {
+    md += `## Analysis — What's Working (and What's Not)\n\n`;
+    md += `> **Overall confidence:** ${reviewResult.overallConfidence}\n`;
+    md += `> Attributed: ${reviewResult.stats.totalAttributed} pages | Unattributed: ${reviewResult.stats.totalUnattributed} pages | Warnings: ${reviewResult.stats.warningCount}\n\n`;
+
+    // Attributions
+    if (interpretation.attributions.length > 0) {
+      md += `### Changes Linked to Page Movement\n\n`;
+      for (const attr of interpretation.attributions) {
+        const arrow = attr.direction === 'up' ? '📈' : '📉';
+        const deltaSign = attr.direction === 'up' ? '+' : '';
+        md += `**${arrow} ${attr.url}** — position ${fmt(attr.positionWas)} → ${fmt(attr.positionNow)} (${deltaSign}${fmt(attr.delta)})\n`;
+        md += `- **Likely cause:** ${attr.likelyCause.change} _(deployed ${attr.likelyCause.deployed}, ${attr.likelyCause.weeksAgo} weeks ago)_\n`;
+        md += `- **Confidence:** ${attr.likelyCause.confidence.toUpperCase()} — ${attr.likelyCause.reason}\n`;
+        if (attr.allMatchingChanges.length > 1) {
+          md += `- **Also matched:** ${attr.allMatchingChanges.slice(1).map(c => c.change).join(', ')}\n`;
+        }
+        md += '\n';
+      }
+    }
+
+    // Unattributed
+    if (interpretation.unattributed.length > 0) {
+      md += `### Unattributed Movement (No Matching Change)\n\n`;
+      md += `_These pages moved but don't match any logged SEO change. Could be algorithm updates, competitor changes, or external links._\n\n`;
+      md += `| Page | Direction | Delta | Impressions |\n`;
+      md += `|------|-----------|-------|-------------|\n`;
+      for (const u of interpretation.unattributed) {
+        const dir = u.direction === 'up' ? '↑' : '↓';
+        md += `| ${u.url} | ${dir} | ${fmt(Math.abs(u.delta))} | ${u.impressions} |\n`;
+      }
+      md += '\n';
+    }
+
+    // Boosted opportunities
+    if (interpretation.boostedOpportunities.length > 0) {
+      md += `### Opportunities Boosted by Recent Changes\n\n`;
+      md += `_These pages are close to page 1 AND were affected by a recent change. A small push could get them there._\n\n`;
+      for (const opp of interpretation.boostedOpportunities) {
+        md += `- **${opp.url}** — position ${fmt(opp.position)}, ${opp.impressions} impressions. Affected by "${opp.change}" (${opp.weeksAgo} weeks ago)\n`;
+      }
+      md += '\n';
+    }
+
+    // Warnings from review agent
+    if (reviewResult.warnings.length > 0) {
+      md += `### ⚠️ Review Warnings\n\n`;
+      for (const w of reviewResult.warnings) {
+        const icon = w.severity === 'high' ? '🔴' : '🟡';
+        md += `${icon} **${w.type.replace(/_/g, ' ').toUpperCase()}:** ${w.message}\n\n`;
+      }
+    }
+
+    // Insights from review agent
+    if (reviewResult.insights.length > 0) {
+      md += `### 💡 Insights\n\n`;
+      for (const i of reviewResult.insights) {
+        const icon = i.actionable ? '👉' : 'ℹ️';
+        md += `${icon} ${i.message}\n\n`;
+      }
+    }
   }
-  md += '\n';
+
+  // Pending changes status — parsed from SEO-CHANGELOG.md
+  const allChanges = parsePendingChanges();
+  const pending = allChanges.filter(c => !c.isComplete);
+  const completed = allChanges.filter(c => c.isComplete);
+
+  if (pending.length > 0) {
+    md += `## Pending Changes — Do Not Reverse Yet\n\n`;
+    md += `| Change | Deployed | Weeks Elapsed | Evaluation Status |\n`;
+    md += `|--------|----------|---------------|-------------------|\n`;
+    for (const c of pending) {
+      const weeks = weeksSince(c.deployed);
+      const evalStatus = weeks < 8 ? '🟡 Too early to evaluate' : weeks < 12 ? '🔵 Evaluating' : '✅ Ready to assess';
+      md += `| ${c.label} | ${c.deployed} | ${weeks} | ${evalStatus} |\n`;
+    }
+    md += '\n';
+  }
+
+  if (completed.length > 0) {
+    md += `## Completed Changes\n\n`;
+    md += `| Change | Deployed | Weeks Ago |\n`;
+    md += `|--------|----------|-----------|\n`;
+    for (const c of completed) {
+      md += `| ${c.label} | ${c.deployed} | ${weeksSince(c.deployed)} |\n`;
+    }
+    md += '\n';
+  }
 
   md += `---\n\n_Next report generated automatically next Tuesday at 9am ET_\n`;
   md += `_To add delivery via email or GHL, see scripts/seo-agent/index.js — delivery section_\n`;

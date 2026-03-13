@@ -19,6 +19,8 @@
 
 **Type:** New pages + on-page SEO
 
+**URLs affected:** `/`, `/grab-bar-installation`, `/bathroom-safety-rockville-*`, `/bathroom-safety-lansdale-*`, `/bathroom-safety-lancaster-*`, `/bathroom-safety-bethesda-*`, `/bathroom-safety-west-chester-*`, `/bathroom-safety-philadelphia-*`, `/bathroom-safety-horsham-*`, `/bathroom-safety-wilmington-*`, `/bathroom-safety-montgomery-county-*`, `/bathroom-safety-west-philadelphia-*`
+
 **What was deployed:**
 - New city pages: Rockville MD, Lansdale PA, Lancaster PA, Bethesda MD (grab bar + railing)
 - Hub page: `/grab-bar-installation/` targeting generic "near me" grab bar queries
@@ -41,6 +43,8 @@
 
 **Type:** UX / conversion
 
+**URLs affected:** `*` (all pages — site-wide template change)
+
 **What was deployed:**
 - Trust bar on every page: Licensed & Insured | 20 Years Experience | Lifetime Labor Warranty | ADA-Compliant
 - Mobile click-to-call fixed — phone icon always visible in mobile header
@@ -58,6 +62,8 @@
 
 **Type:** Internal linking structure
 
+**URLs affected:** `/bathroom-safety-*/*` (all city+service pages)
+
 **What was deployed:**
 - City+service pages now show **same-county cities** in the "Other Cities" section instead of random global cities (was using `LOCATIONS.slice(0,10)` which could put Lancaster cities on a Wilmington page)
 - Added "View all [County] [Service] →" link from every city+service page up to the county service hub
@@ -74,6 +80,8 @@
 ### 2026-03-12 — Internal Linking: Hub-and-Spoke Links
 
 **Type:** Internal linking structure
+
+**URLs affected:** `/bathroom-safety-*/bathroom-grab-bar-installation` (all grab bar service pages)
 
 **What was deployed:**
 - All grab bar city+service pages now include a "Grab Bar Installation Resources" section with 3 links to `/grab-bar-installation` using varied descriptive anchor text:
@@ -93,6 +101,8 @@
 ### 2026-03-12 — Schema: areaServed on Hub Page
 
 **Type:** Structured data
+
+**URLs affected:** `/grab-bar-installation`
 
 **What was deployed:**
 - Hub page (`/grab-bar-installation`) now has `HomeAndConstructionBusiness` JSON-LD schema
