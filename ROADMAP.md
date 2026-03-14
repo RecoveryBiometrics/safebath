@@ -303,6 +303,37 @@ _See full plan at the top of UP NEXT — built and running as of March 2026_
 
 ---
 
+## Phase 5.1 — Fix "Crawled Not Indexed" Pages (~700 pages)
+_Get Google to index pages it's currently skipping_
+
+> **Problem:** ~700 of 1,427 pages are crawled but not indexed. Google sees them as too similar to each other — same service description, different city name swapped in. Over half the site is invisible to search.
+
+> **Tracking file:** `seo-reports/not-indexed-pages-2026-03-14.md` — baseline snapshot with priority tiers and checklist
+
+### Layer 1 — Template Differentiation (one change, all pages improve)
+- [ ] Add city-specific intro sentences (population, character, neighborhood type)
+- [ ] Rotate different FAQ sets instead of same 5 questions on every page
+- [ ] Show different testimonials per county/region
+- [ ] Add "Why [City] residents choose us" section that varies by city size/type
+
+### Layer 2 — SEO Agent Indexing Tracker
+- [ ] Add indexing status module to weekly SEO agent
+- [ ] Compare against baseline list of 700 not-indexed pages
+- [ ] Report: "X pages moved to indexed this week, Y still pending"
+
+### Layer 3 — Priority Unique Content (Tier 1 cities first)
+- [ ] Tier 1: Philadelphia, Wilmington, West Chester, King of Prussia, Lansdale, Norristown, Media, Horsham + all their service pages
+- [ ] Tier 2: Medium cities (Collegeville, Ambler, Downingtown, Berwyn, Malvern, etc.)
+- [ ] Tier 3: Small towns — may rely on template improvements alone
+- [ ] Content sourced from Reddit engine (Phase 5) — real questions mapped to relevant cities
+
+### Success Metrics
+- Baseline: ~700 not indexed (March 14, 2026)
+- Target: Under 200 not indexed by June 2026
+- Measurement: Weekly via SEO agent indexing report
+
+---
+
 ## Phase 7 — Scale
 _When core markets are performing_
 
