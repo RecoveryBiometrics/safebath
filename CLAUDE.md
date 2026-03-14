@@ -32,6 +32,8 @@
 | GitHub Actions | ✅ Live | Weekly SEO report every Tuesday 9am ET |
 | GHL MCP | ✅ Connected | CRM, conversations, social posting, email templates |
 | SEO Agent | ✅ Live | Monitors Search Console, generates weekly reports to `seo-reports/` |
+| Gmail API | ✅ Connected | Send emails via gcloud ADC — daily reports, SEO reports, notifications |
+| gcloud CLI | ✅ Authenticated | `williamcourterwelch@gmail.com` — Gmail, Search Console, GBP APIs |
 
 ---
 

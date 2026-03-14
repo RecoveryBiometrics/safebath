@@ -80,22 +80,17 @@ _March 12, 2026 — confirmed by local SEO research_
 
 ---
 
-## 🔴 #1 BLOCKER — Enable Weekly SEO Report Email
+## ✅ RESOLVED — Email Delivery via Gmail API
 
-_~5 minutes. Human action required. Code is already built._
+_Resolved March 14, 2026. Gmail API connected via gcloud ADC. No SMTP secrets needed._
 
-The SEO agent is fully built and running weekly. Email delivery to bill@reiamplifi.com is coded and ready — just needs two GitHub secrets added.
+Email sends from `williamcourterwelch@gmail.com` to `bill@reiamplifi.com` using Application Default Credentials with the `x-goog-user-project: safebath-seo-agent` header. The old SMTP blocker is eliminated.
 
-### Steps:
-
-1. [ ] Go to https://myaccount.google.com/apppasswords (must have 2FA enabled on the Google account)
-2. [ ] Create an app password — name it `safebath-seo-agent`
-3. [ ] Go to https://github.com/RecoveryBiometrics/safebath → **Settings** → **Secrets and variables** → **Actions**
-4. [ ] Add secret: `SMTP_USER` → your Gmail address
-5. [ ] Add secret: `SMTP_PASS` → the 16-character app password from step 2
-6. [ ] Test: **Actions** → **Weekly SEO Report** → **Run workflow** → check bill@reiamplifi.com inbox
-
-Full setup details: `scripts/seo-agent/SETUP.md`
+- [x] Gmail API enabled on `safebath-seo-agent` project
+- [x] gcloud ADC authenticated with `https://mail.google.com/` scope
+- [x] Test email sent successfully (March 14, 2026)
+- [ ] Update SEO agent `email.js` to use Gmail API instead of nodemailer/SMTP
+- [ ] Build daily digest GitHub Action using Gmail API
 
 ---
 
