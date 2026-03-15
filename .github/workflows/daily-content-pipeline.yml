@@ -32,8 +32,8 @@ jobs:
 
       - name: Run content pipeline
         env:
-          GOOGLE_CUSTOM_SEARCH_KEY: ${{ secrets.GOOGLE_CUSTOM_SEARCH_KEY }}
-          GOOGLE_CUSTOM_SEARCH_CX: ${{ secrets.GOOGLE_CUSTOM_SEARCH_CX }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: node index.js
         working-directory: scripts/content-pipeline
 

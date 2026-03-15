@@ -22,6 +22,7 @@ const { checkResearch, checkCopy } = require('./fact-checker');
 const { writeArticles } = require('./copywriter');
 const { audit, applyFixes } = require('./seo-audit');
 const { deploy } = require('./engineer');
+const { sendPipelineEmail } = require('./email');
 
 /**
  * Load pipeline state (tracks which cities have been processed).
@@ -187,6 +188,13 @@ async function run() {
         }
       }
     }
+  }
+
+  // Email results
+  try {
+    await sendPipelineEmail(results, failures);
+  } catch (err) {
+    console.warn('Email failed:', err.message);
   }
 
   return { results, failures };
