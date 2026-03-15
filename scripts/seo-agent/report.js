@@ -67,7 +67,7 @@ function pctChange(current, prior) {
   return ` (${sign}${pct.toFixed(1)}%)`;
 }
 
-function generateReport(data, analysis, interpretation, reviewResult) {
+function generateReport(data, analysis, interpretation, reviewResult, inspection) {
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
@@ -86,6 +86,63 @@ function generateReport(data, analysis, interpretation, reviewResult) {
   md += `| CTR | **${(currentTotals.ctr * 100).toFixed(2)}%** | ${(priorTotals.ctr * 100).toFixed(2)}% | ${(BASELINE.ctr * 100).toFixed(1)}% |\n`;
   md += `| Avg Position | **${fmt(currentTotals.avgPosition)}** | — | ${BASELINE.avgPosition} |\n`;
   md += `| Pages tracked | ${analysis.pageCount} | — | — |\n\n`;
+
+  // Indexing Status (from URL Inspection API)
+  if (inspection && !inspection.skipped && inspection.summary) {
+    const s = inspection.summary;
+    md += `## Indexing Status — Crawled-Not-Indexed Tracker\n\n`;
+    md += `> Checked ${s.batchSize} pages this run (batch ${s.batchRange} of ${s.totalTracked} tracked)\n\n`;
+    md += `| Status | Count |\n`;
+    md += `|--------|-------|\n`;
+    md += `| Indexed (PASS) | **${s.indexed}** |\n`;
+    md += `| Not Indexed | ${s.notIndexed} |\n`;
+    md += `| Errors | ${s.errors} |\n\n`;
+
+    // Show newly indexed pages (wins!)
+    const newlyIndexed = inspection.inspected.filter(r => r.verdict === 'PASS');
+    if (newlyIndexed.length > 0) {
+      md += `### Newly Indexed Pages\n\n`;
+      md += `_These pages were on the not-indexed list but are now indexed._\n\n`;
+      for (const p of newlyIndexed) {
+        const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
+        md += `- ${slug}\n`;
+      }
+      md += '\n';
+    }
+
+    // Show pages still not indexed with last crawl info
+    const stillNotIndexed = inspection.inspected.filter(
+      r => r.verdict !== 'PASS' && r.verdict !== 'ERROR'
+    );
+    if (stillNotIndexed.length > 0) {
+      md += `### Still Not Indexed (${stillNotIndexed.length} pages)\n\n`;
+      md += `| Page | Coverage State | Last Crawl | Fetch Status |\n`;
+      md += `|------|---------------|------------|-------------|\n`;
+      const show = stillNotIndexed.slice(0, 20); // Cap at 20 in report
+      for (const p of show) {
+        const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
+        const crawl = p.lastCrawlTime ? p.lastCrawlTime.split('T')[0] : '—';
+        md += `| ${slug} | ${p.coverageState} | ${crawl} | ${p.pageFetchState || '—'} |\n`;
+      }
+      if (stillNotIndexed.length > 20) {
+        md += `| _...and ${stillNotIndexed.length - 20} more_ | | | |\n`;
+      }
+      md += '\n';
+    }
+
+    // Load cumulative stats if available
+    const cumulativePath = path.join(__dirname, '../../seo-data/inspect-cumulative.json');
+    if (fs.existsSync(cumulativePath)) {
+      const cum = JSON.parse(fs.readFileSync(cumulativePath, 'utf8'));
+      md += `### Cumulative Progress\n\n`;
+      md += `| Metric | Value |\n`;
+      md += `|--------|-------|\n`;
+      md += `| Total URLs inspected (all time) | ${cum.totalInspected} |\n`;
+      md += `| Currently indexed | **${cum.indexed}** |\n`;
+      md += `| Still not indexed | ${cum.notIndexed} |\n`;
+      md += `| Index rate | ${cum.totalInspected > 0 ? ((cum.indexed / cum.totalInspected) * 100).toFixed(1) : 0}% |\n\n`;
+    }
+  }
 
   // Wins
   if (wins.length > 0) {

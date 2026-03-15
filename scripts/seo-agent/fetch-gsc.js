@@ -1,6 +1,7 @@
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
+const { getAuthClient } = require('./auth');
 
 const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com';
 const DATA_DIR = path.join(__dirname, '../../seo-data');
@@ -12,21 +13,6 @@ function getDateRange(daysBack, length = 28) {
     startDate: start.toISOString().split('T')[0],
     endDate: end.toISOString().split('T')[0],
   };
-}
-
-async function getAuthClient() {
-  const key = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
-  if (!key) {
-    throw new Error(
-      'GOOGLE_SERVICE_ACCOUNT_KEY is not set. See scripts/seo-agent/SETUP.md.'
-    );
-  }
-  const credentials = JSON.parse(key);
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ['https://www.googleapis.com/auth/webmasters.readonly'],
-  });
-  return auth.getClient();
 }
 
 async function query(wm, dates, dimensions, rowLimit = 500) {

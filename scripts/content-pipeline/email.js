@@ -5,7 +5,7 @@
  */
 const nodemailer = require('nodemailer');
 
-const TO = 'bill@reiamplifi.com';
+const TO = process.env.EMAIL_TO || 'bill@reiamplifi.com';
 
 async function sendPipelineEmail(results, failures) {
   const user = process.env.SMTP_USER;
