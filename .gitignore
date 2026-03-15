@@ -11,3 +11,9 @@ scripts/seo-agent/.env
 seo-data/*.json
 .sa-key.json
 scripts/content-pipeline/node_modules/
+scripts/seo-agent/node_modules/
+scripts/gsc-cli/node_modules/
+scripts/gsc-cli/.venv/
+site/
+node_modules/
+.venv/
