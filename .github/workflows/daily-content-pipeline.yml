@@ -1,0 +1,46 @@
+name: Daily Content Pipeline
+
+on:
+  schedule:
+    # Every day at 6am ET (10:00 UTC)
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI anytime
+
+permissions:
+  contents: write
+
+jobs:
+  content-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: scripts/content-pipeline
+
+      - name: Run content pipeline
+        env:
+          GOOGLE_CUSTOM_SEARCH_KEY: ${{ secrets.GOOGLE_CUSTOM_SEARCH_KEY }}
+          GOOGLE_CUSTOM_SEARCH_CX: ${{ secrets.GOOGLE_CUSTOM_SEARCH_CX }}
+        run: node index.js
+        working-directory: scripts/content-pipeline
+
+      - name: Commit new content to dev
+        run: |
+          git config user.name "SafeBath Content Pipeline"
+          git config user.email "content-pipeline@safebathgrabbar.com"
+          git add site/src/data/local-news/ seo-data/pipeline-state.json
+          git diff --staged --quiet || git commit -m "Content pipeline: $(date +%Y-%m-%d) — new local news articles"
+          git push origin dev
