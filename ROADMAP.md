@@ -123,11 +123,15 @@ _Autonomous multi-agent pipeline to add unique, fact-checked local content to ev
 
 > **Baseline:** `seo-reports/not-indexed-pages-2026-03-14.md` — 700 not-indexed pages with priority tiers
 
-### Step 1 — Local GSC Access
-- [ ] Write `scripts/gsc-query.js` using ADC auth (`williamcourterwelch@gmail.com`)
-- [ ] Add `webmasters.readonly` scope to ADC if needed
-- [ ] Test: pull live data, verify against GSC dashboard
-- [ ] Save updated baseline of not-indexed pages
+### Step 1 — Local GSC Access (IN PROGRESS)
+- [x] Write `scripts/gsc-query.js` using ADC auth (`williamcourterwelch@gmail.com`) — DONE, script at `scripts/gsc-query.js`
+- [ ] Add `webmasters.readonly` scope to ADC ← **NEXT: run this command:**
+  ```
+  gcloud auth application-default login --scopes=https://www.googleapis.com/auth/webmasters.readonly,https://mail.google.com/,https://www.googleapis.com/auth/cloud-platform
+  ```
+  (opens browser for Google login, one-time, keeps existing Gmail + cloud scopes)
+- [ ] Test: `node scripts/gsc-query.js test` — should show clicks/impressions
+- [ ] Full pull: `node scripts/gsc-query.js not-indexed` — saves 28-day baseline to `seo-reports/`
 
 ### Step 2 — 4-Agent Content Pipeline (Daily Cron)
 
