@@ -1,6 +1,6 @@
 # SafeBath — AI Operations Roadmap
 
-Last updated: March 13, 2026
+Last updated: March 15, 2026
 
 ---
 
@@ -94,61 +94,91 @@ Email sends from `williamcourterwelch@gmail.com` to `bill@reiamplifi.com` using 
 
 ---
 
-## 🔴 Phase 6 — Search Console Agent (BUILT — credential already added)
+## ✅ Phase 6 — Search Console Agent (COMPLETE & RUNNING)
 _Automated SEO measurement — replaces manual guesswork with data_
 
-> **Agent is live and running.** First report generated March 13, 2026. Email delivery coded — just needs SMTP secrets added (see blocker above).
+> **Agent is live and running.** First report generated March 13, 2026. Service account connected. GSC credential added to GitHub secrets. Weekly reports auto-commit to `seo-reports/`.
 
----
-
-### What It Does
-
-The agent runs on a schedule (weekly or biweekly), pulls ranking data, compares it to the baseline and prior weeks, and produces a structured report. Human decides what to act on.
-
-**Mode A — Report Only (Human-in-the-Loop):**
-Agent pulls data → analyzes → delivers report → human reviews → human decides what to build next
-
-**Mode B — Report + Auto-Build:**
-Agent pulls data → analyzes → delivers report → auto-commits low-risk changes (new city pages, meta tweaks) to `dev` → human reviews Vercel preview → human merges to `main`
-
-Mode is a decision to be made once the agent is running. Starting with Mode A is safest.
-
----
-
-### Step 1 — Google Search Console API Access ⚠️ ONLY REMAINING BLOCKER
-_~10 minutes. Human action required. Everything else is already built._
-
-- [ ] Go to https://console.cloud.google.com → create project named `safebath-seo`
-- [ ] Search for **"Google Search Console API"** → Enable it
-- [ ] **IAM & Admin** → **Service Accounts** → Create → name it `seo-agent` → download the JSON key file
-- [ ] Go to https://search.google.com/search-console → `safebathgrabbar.com` → **Settings** → **Users and permissions** → Add the service account email with **Full** access
-- [ ] Go to https://github.com/RecoveryBiometrics/safebath → **Settings** → **Secrets and variables** → **Actions** → **New secret** → name: `GOOGLE_SERVICE_ACCOUNT_KEY` → paste the entire JSON key file contents
-
-Full walkthrough: `scripts/seo-agent/SETUP.md`
-
----
-
-### Steps 2–5 — ✅ COMPLETE (Built March 12, 2026)
-
-The agent is fully built and scheduled. Once the credential above is added, it runs automatically.
+- [x] Google Search Console API enabled on `safebath-seo-agent` project
+- [x] Service account: `seo-agent@safebath-seo-agent.iam.gserviceaccount.com`
+- [x] Service account key stored in GitHub secret `GOOGLE_SERVICE_ACCOUNT_KEY`
+- [x] Agent built and scheduled: every Tuesday 9am ET via GitHub Actions
+- [x] First report: March 13, 2026 — 24 clicks, 1,827 impressions, 115 pages tracked
+- [ ] Add local GSC access via ADC (being added in Phase 5.1)
 
 | File | What it does |
 |------|-------------|
-| `scripts/seo-agent/fetch-gsc.js` | Pulls clicks, impressions, CTR, position by page + query (last 28 days vs. prior 28 days) |
-| `scripts/seo-agent/analyze.js` | Finds wins, drops, opportunities (pos 8–20), and content gaps (high impression / zero click queries) |
-| `scripts/seo-agent/report.js` | Generates `seo-reports/YYYY-MM-DD.md` with pending-change safeguards from `SEO-CHANGELOG.md` |
-| `scripts/seo-agent/index.js` | Main runner — orchestrates all three steps |
-| `.github/workflows/weekly-seo-report.yml` | GitHub Actions cron — **every Tuesday 9am ET**, commits report automatically, no session required |
+| `scripts/seo-agent/fetch-gsc.js` | Pulls clicks, impressions, CTR, position by page + query (28-day rolling) |
+| `scripts/seo-agent/analyze.js` | Finds wins, drops, opportunities (pos 8–20), content gaps |
+| `scripts/seo-agent/report.js` | Generates `seo-reports/YYYY-MM-DD.md` with SEO-CHANGELOG.md safeguards |
+| `scripts/seo-agent/index.js` | Main orchestrator |
+| `.github/workflows/weekly-seo-report.yml` | GitHub Actions cron — every Tuesday 9am ET |
 
 ---
 
-### Step 6 — Delivery Method (Decide When Ready)
+## 🔴 Phase 5.1 — Fix "Crawled Not Indexed" Pages (~700 pages) ← ACTIVE NOW
+_Autonomous multi-agent pipeline to add unique, fact-checked local content to every page_
 
-Currently: **Mode A — report saved to `seo-reports/` and committed to GitHub**. Open the file in any session to review.
+> **Problem:** ~700 of 1,427 pages are crawled but not indexed. Google sees them as too similar — same service description, different city name. Over half the site is invisible to search.
 
-To add email or GHL delivery, uncomment the relevant block in `scripts/seo-agent/index.js`.
+> **Baseline:** `seo-reports/not-indexed-pages-2026-03-14.md` — 700 not-indexed pages with priority tiers
 
-**Mode B (auto-propose changes):** Can be added later — agent proposes changes to a review queue, human approves before anything goes to `dev`.
+### Step 1 — Local GSC Access
+- [ ] Write `scripts/gsc-query.js` using ADC auth (`williamcourterwelch@gmail.com`)
+- [ ] Add `webmasters.readonly` scope to ADC if needed
+- [ ] Test: pull live data, verify against GSC dashboard
+- [ ] Save updated baseline of not-indexed pages
+
+### Step 2 — 4-Agent Content Pipeline (Daily Cron)
+
+Runs daily via GitHub Actions. Processes 5 cities/day. Pushes directly to `main` (live).
+
+```
+Researcher → Fact Checker #1 → Copywriter → Fact Checker #2 → SEO Audit → Engineer → Deploy
+     ↑              |               ↑              |               |
+     └──── fix ─────┘               └──── fix ─────┘               ↓
+                                                          (auto-fix & retry,
+                                                           max 3 attempts)
+```
+
+**Agents:**
+1. **Researcher** — Reddit (market-specific subreddits) + Census + web search for hyper-local info
+2. **Fact Checker #1** — Verifies all claims against Census Bureau, CDC, local gov, Wikipedia
+3. **Copywriter** — Writes unique content per city: intro, housing challenges, "Why Choose Us", safety stats, neighborhood mentions
+4. **Fact Checker #2** — Validates copy accuracy + uniqueness (flags >60% similarity to sibling cities)
+5. **SEO Audit** — Validates title tags, meta descriptions, H1s, schema, canonicals, internal links, OG tags, alt text. Blocks deploy if wrong.
+6. **Engineer** — Writes validated JSON to `site/src/data/cities/{slug}-{state}.json`
+
+**Self-healing:** Failed checks loop back with improved prompts. Max 3 retries. Agents fix their own issues.
+
+**Token-optimized:** JSON between agents, shared caches (census, brand rules), batch county lookups, skip re-verified sibling data.
+
+### Step 3 — "What's Happening in [City]" Local Blog
+
+Each city gets a living local news/events section:
+- **On city page:** 10 most recent entries as teaser
+- **Archive:** `/bathroom-safety-{city}-{state}/local-news/` — full history, each entry has own URL
+- **Appends daily** — new entry at top, nothing deleted, builds over time
+- **Interlinked:** blog entries ↔ service pages ↔ city hub (hub-and-spoke per city)
+- **Result:** 161 local blogs × daily entries = thousands of new unique indexed pages
+
+### Step 4 — Daily Report (emailed via Gmail API)
+
+Daily email to `bill@reiamplifi.com` with:
+- Cities processed today + live safebathgrabbar.com links (already deployed)
+- Research summary, fact check results, content written
+- Indexing recovery tracker: "X/700 pages now indexed"
+- Any errors or flagged issues
+
+### Processing Order
+1. **Non-indexed pages first** (~700 pages) — most urgent
+2. **Then ALL remaining pages** — even indexed pages get the full treatment
+3. All 161 cities, no exceptions
+
+### Success Metrics
+- **Baseline:** ~700 not indexed (March 14, 2026)
+- **Target:** Under 200 not indexed by June 2026
+- **Measurement:** Weekly via SEO agent indexing report
 
 ---
 
@@ -290,42 +320,6 @@ Add to the existing SEO agent report:
 - "Medicare and Medicaid coverage for home safety modifications"
 - "Occupational therapist home assessment — what to expect"
 - "Fall prevention statistics 2026 — why bathrooms are the #1 risk"
-
----
-
-## Phase 6 — Automated SEO Agent
-_See full plan at the top of UP NEXT — built and running as of March 2026_
-
----
-
-## Phase 5.1 — Fix "Crawled Not Indexed" Pages (~700 pages)
-_Get Google to index pages it's currently skipping_
-
-> **Problem:** ~700 of 1,427 pages are crawled but not indexed. Google sees them as too similar to each other — same service description, different city name swapped in. Over half the site is invisible to search.
-
-> **Tracking file:** `seo-reports/not-indexed-pages-2026-03-14.md` — baseline snapshot with priority tiers and checklist
-
-### Layer 1 — Template Differentiation (one change, all pages improve)
-- [ ] Add city-specific intro sentences (population, character, neighborhood type)
-- [ ] Rotate different FAQ sets instead of same 5 questions on every page
-- [ ] Show different testimonials per county/region
-- [ ] Add "Why [City] residents choose us" section that varies by city size/type
-
-### Layer 2 — SEO Agent Indexing Tracker
-- [ ] Add indexing status module to weekly SEO agent
-- [ ] Compare against baseline list of 700 not-indexed pages
-- [ ] Report: "X pages moved to indexed this week, Y still pending"
-
-### Layer 3 — Priority Unique Content (Tier 1 cities first)
-- [ ] Tier 1: Philadelphia, Wilmington, West Chester, King of Prussia, Lansdale, Norristown, Media, Horsham + all their service pages
-- [ ] Tier 2: Medium cities (Collegeville, Ambler, Downingtown, Berwyn, Malvern, etc.)
-- [ ] Tier 3: Small towns — may rely on template improvements alone
-- [ ] Content sourced from Reddit engine (Phase 5) — real questions mapped to relevant cities
-
-### Success Metrics
-- Baseline: ~700 not indexed (March 14, 2026)
-- Target: Under 200 not indexed by June 2026
-- Measurement: Weekly via SEO agent indexing report
 
 ---
 
