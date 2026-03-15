@@ -9,3 +9,5 @@ scripts/seo-agent/.env
 
 # Raw GSC data files (committed via GitHub Actions, not manually)
 seo-data/*.json
+.sa-key.json
+scripts/content-pipeline/node_modules/
