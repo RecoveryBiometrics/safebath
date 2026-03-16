@@ -29,7 +29,9 @@
 | System | Status | What It Does |
 |--------|--------|--------------|
 | Vercel | ✅ Live | Auto-deploys `main` branch on every push. Preview URL per branch. |
-| GitHub Actions | ✅ Live | Weekly SEO report every Tuesday 9am ET |
+| GitHub Actions (workspace) | ✅ Live | Weekly SEO report every Tuesday 9am ET |
+| GitHub Actions (website) | ✅ Live | Daily content pipeline at 6am ET — scrapes local events, deploys articles |
+| Content Pipeline | ✅ Live | In `safebath-website` repo. 5 cities/day, auto-commits to main, Vercel deploys. |
 | GHL MCP | ✅ Connected | CRM, conversations, social posting, email templates |
 | SEO Agent | ✅ Live | Monitors Search Console, generates weekly reports to `seo-reports/` |
 | Gmail API | ✅ Connected | Send emails via gcloud ADC — daily reports, SEO reports, notifications |

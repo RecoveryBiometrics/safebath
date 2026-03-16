@@ -126,7 +126,7 @@ _Automated local event content on every city page — daily, no human involvemen
 
 > **Problem solved:** ~700 of 1,427 pages were crawled but not indexed because Google saw them as too similar. Now each city page gets real, date-specific local events that make it genuinely unique.
 
-> **Status:** Live as of March 15, 2026. 10 cities seeded. Daily cron deploys to main automatically.
+> **Status:** Live as of March 15, 2026. Migrated to website repo March 16, 2026. First successful end-to-end run (scrape → commit → Vercel deploy) confirmed March 16.
 
 ### Site Infrastructure (COMPLETE)
 - [x] `src/lib/local-news.ts` — data layer for city news JSON files
@@ -140,7 +140,7 @@ _Automated local event content on every city page — daily, no human involvemen
 ### 6-Agent Content Pipeline (COMPLETE & RUNNING)
 
 ```
-Researcher → Fact Checker #1 → Copywriter → Fact Checker #2 → SEO Audit → Engineer → Deploy → Email
+Researcher → Fact Checker #1 → Copywriter → Fact Checker #2 → SEO Audit → Engineer → Deploy
 ```
 
 | Agent | What it does |
@@ -150,13 +150,15 @@ Researcher → Fact Checker #1 → Copywriter → Fact Checker #2 → SEO Audit 
 | **Copywriter** | Writes short event blurbs with natural safety tie-ins |
 | **Fact Checker #2** | Validates copy mentions city name, checks uniqueness vs siblings (>85% blocks) |
 | **SEO Audit** | Checks title length, slug format, excerpt, local relevance |
-| **Engineer** | Deploys to `site/src/data/local-news/` (append, don't replace) |
+| **Engineer** | Deploys to `src/data/local-news/` (append, don't replace) |
 
-- **Schedule:** Daily 6am ET via GitHub Actions → commits to `main` → auto-deploys live
+- **Location:** `safebath-website` repo → `scripts/content-pipeline/`
+- **Schedule:** Daily 6am ET via GitHub Actions → commits to `main` → Vercel auto-deploys live
 - **Rate:** 5 cities/day → full 167-city coverage in ~34 days
 - **Self-healing:** Max 3 retries per city, auto-fixes SEO issues
-- **Email:** Summary sent to bill@reiamplifi.com after every run
+- **City data:** `scripts/content-pipeline/cities-data.json` (167 cities, extracted from constants.ts)
 - **Curated override:** `scripts/content-pipeline/events/{slug}.json` takes priority over web scraping
+- **Committer:** `github-actions[bot]` (required for Vercel Hobby plan deploys)
 
 | File | Purpose |
 |------|---------|
@@ -166,8 +168,11 @@ Researcher → Fact Checker #1 → Copywriter → Fact Checker #2 → SEO Audit 
 | `scripts/content-pipeline/copywriter.js` | Event blurb writer |
 | `scripts/content-pipeline/seo-audit.js` | SEO validation |
 | `scripts/content-pipeline/engineer.js` | Deploys JSON to site data dir |
-| `scripts/content-pipeline/email.js` | SMTP email notification |
+| `scripts/content-pipeline/cities-data.json` | All 167 cities (update when adding cities) |
 | `.github/workflows/daily-content-pipeline.yml` | Daily cron at 6am ET |
+
+### March 16, 2026 — Pipeline Migration
+The content pipeline was originally in the workspace repo (`safebath`) but failed in CI because it depended on `constants.ts` from the website repo (`safebath-website`). Migrated the entire pipeline into the website repo so everything is self-contained: pipeline runs → writes articles → commits → Vercel deploys. No cross-repo dependencies, no PAT tokens needed.
 
 ### GSC Access (COMPLETE)
 - [x] Service account key working locally (`.env` in `scripts/seo-agent/`)
