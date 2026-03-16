@@ -16,12 +16,13 @@
 
 ---
 
-## Current State (as of March 13, 2026)
+## Current State (as of March 16, 2026)
 - **Site is live** at safebathgrabbar.com — DNS pointed from Firebase to Vercel
 - **1,427 pages** deployed and indexed
-- **Phases 0, 1, 2, 2.5, and Phase 8 (initial) complete** — see ROADMAP.md for full detail
+- **Phases 0, 1, 2, 2.5, 5.1, and Phase 8 (initial) complete** — see ROADMAP.md for full detail
 - **National expansion started:** Las Vegas NV (Clark County, 10 cities) and Myrtle Beach SC (Horry County, 10 cities) live with market-specific phone numbers
 - **SEO Agent live:** running weekly Tuesdays 9am ET via GitHub Actions
+- **Content Pipeline live:** running daily 6am ET — scrapes local events, deploys to site automatically
 
 ---
 
