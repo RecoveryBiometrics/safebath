@@ -7,8 +7,10 @@ scripts/seo-agent/.env
 *.credentials.json
 .gsc-credentials.json
 
-# Raw GSC data files (committed via GitHub Actions, not manually)
+# Raw GSC data files — ignore bulk exports, allow pipeline output
 seo-data/*.json
+!seo-data/pipeline-state.json
+!seo-data/local-news/
 .sa-key.json
 scripts/content-pipeline/node_modules/
 scripts/seo-agent/node_modules/

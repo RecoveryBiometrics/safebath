@@ -5,10 +5,8 @@ module.exports = {
   CITIES_PER_RUN: 5,
 
   // Paths
-  SITE_DIR: path.join(__dirname, '../../site'),
-  NEWS_DATA_DIR: path.join(__dirname, '../../site/src/data/local-news'),
+  NEWS_DATA_DIR: path.join(__dirname, '../../seo-data/local-news'),
   STATE_FILE: path.join(__dirname, '../../seo-data/pipeline-state.json'),
-  CONSTANTS_PATH: path.join(__dirname, '../../site/src/lib/constants.ts'),
 
   // Content rules
   MAX_SIMILARITY_PERCENT: 85,  // Flag if >85% similar to sibling city (tightens as content diversifies)

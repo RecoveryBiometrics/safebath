@@ -1,32 +1,12 @@
 /**
- * Parses constants.ts to extract all cities.
- * This avoids importing TypeScript directly — we parse the JS-compatible data.
+ * Loads city data from cities-data.json.
+ * To update: re-extract from site/src/lib/constants.ts locally.
  */
-const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 
 function parseCities() {
-  const content = fs.readFileSync(config.CONSTANTS_PATH, 'utf8');
-
-  // Extract COUNTIES_AND_LOCATIONS array
-  const match = content.match(/export const COUNTIES_AND_LOCATIONS\s*=\s*\[([\s\S]*?)\n\];/);
-  if (!match) throw new Error('Could not parse COUNTIES_AND_LOCATIONS from constants.ts');
-
-  const cities = [];
-  const countyPattern = /county:\s*'([^']+)'/g;
-  const cityPattern = /\{\s*name:\s*'([^']+)',\s*slug:\s*'([^']+)',\s*state:\s*'([^']+)',\s*county:\s*'([^']+)'/g;
-
-  let cityMatch;
-  while ((cityMatch = cityPattern.exec(content)) !== null) {
-    cities.push({
-      name: cityMatch[1],
-      slug: cityMatch[2],
-      state: cityMatch[3],
-      county: cityMatch[4],
-    });
-  }
-
-  return cities;
+  return require(path.join(__dirname, 'cities-data.json'));
 }
 
 /**

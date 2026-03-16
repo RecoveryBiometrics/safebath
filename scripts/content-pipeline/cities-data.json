@@ -1,0 +1,1004 @@
+[
+  {
+    "name": "West Chester",
+    "slug": "west-chester",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Phoenixville",
+    "slug": "phoenixville",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Coatesville",
+    "slug": "coatesville",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Downingtown",
+    "slug": "downingtown",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Kennett Square",
+    "slug": "kennett-square",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Oxford",
+    "slug": "oxford",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Parkesburg",
+    "slug": "parkesburg",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Spring City",
+    "slug": "spring-city",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Malvern",
+    "slug": "malvern",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Atglen",
+    "slug": "atglen",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Honey Brook",
+    "slug": "honey-brook",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "South Coatesville",
+    "slug": "south-coatesville",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Elverson",
+    "slug": "elverson",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Modena",
+    "slug": "modena",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Exton",
+    "slug": "exton",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Paoli",
+    "slug": "paoli",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Berwyn",
+    "slug": "berwyn",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "West Grove",
+    "slug": "west-grove",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Avondale",
+    "slug": "avondale",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Devon",
+    "slug": "devon",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Thorndale",
+    "slug": "thorndale",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Unionville",
+    "slug": "unionville",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Eagleview",
+    "slug": "eagleview",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Pocopson",
+    "slug": "pocopson",
+    "state": "PA",
+    "county": "Chester County, PA"
+  },
+  {
+    "name": "Chester",
+    "slug": "chester",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Yeadon",
+    "slug": "yeadon",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Lansdowne",
+    "slug": "lansdowne",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Darby",
+    "slug": "darby",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Collingdale",
+    "slug": "collingdale",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Brookhaven",
+    "slug": "brookhaven",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Ridley Park",
+    "slug": "ridley-park",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Glenolden",
+    "slug": "glenolden",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Clifton Heights",
+    "slug": "clifton-heights",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Folcroft",
+    "slug": "folcroft",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Swarthmore",
+    "slug": "swarthmore",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Prospect Park",
+    "slug": "prospect-park",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Sharon Hill",
+    "slug": "sharon-hill",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Aldan",
+    "slug": "aldan",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Eddystone",
+    "slug": "eddystone",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Rutledge",
+    "slug": "rutledge",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Trainer",
+    "slug": "trainer",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Upland",
+    "slug": "upland",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Norwood",
+    "slug": "norwood",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Morton",
+    "slug": "morton",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Drexel Hill",
+    "slug": "drexel-hill",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Broomall",
+    "slug": "broomall",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Ardmore",
+    "slug": "ardmore",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Glen Mills",
+    "slug": "glen-mills",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Media",
+    "slug": "media",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Havertown",
+    "slug": "havertown",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Folsom",
+    "slug": "folsom",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Springfield",
+    "slug": "springfield",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Boothwyn",
+    "slug": "boothwyn",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Holmes",
+    "slug": "holmes",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Secane",
+    "slug": "secane",
+    "state": "PA",
+    "county": "Delaware County, PA"
+  },
+  {
+    "name": "Norristown",
+    "slug": "norristown",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Pottstown",
+    "slug": "pottstown",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Lansdale",
+    "slug": "lansdale",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Ambler",
+    "slug": "ambler",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Conshohocken",
+    "slug": "conshohocken",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Bridgeport",
+    "slug": "bridgeport",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Collegeville",
+    "slug": "collegeville",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Jenkintown",
+    "slug": "jenkintown",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Rockledge",
+    "slug": "rockledge",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Narberth",
+    "slug": "narberth",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Royersford",
+    "slug": "royersford",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Hatfield",
+    "slug": "hatfield",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Souderton",
+    "slug": "souderton",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "East Greenville",
+    "slug": "east-greenville",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Telford",
+    "slug": "telford",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Green Lane",
+    "slug": "green-lane",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Trappe",
+    "slug": "trappe",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Pennsburg",
+    "slug": "pennsburg",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Red Hill",
+    "slug": "red-hill",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Schwenksville",
+    "slug": "schwenksville",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "North Wales",
+    "slug": "north-wales",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "West Conshohocken",
+    "slug": "west-conshohocken",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Bryn Athyn",
+    "slug": "bryn-athyn",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "King of Prussia",
+    "slug": "king-of-prussia",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Willow Grove",
+    "slug": "willow-grove",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Horsham",
+    "slug": "horsham",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Ardmore",
+    "slug": "ardmore-montgomery",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Fort Washington",
+    "slug": "fort-washington",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Blue Bell",
+    "slug": "blue-bell",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Harleysville",
+    "slug": "harleysville",
+    "state": "PA",
+    "county": "Montgomery County, PA"
+  },
+  {
+    "name": "Philadelphia",
+    "slug": "philadelphia",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Center City",
+    "slug": "center-city",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "South Philadelphia",
+    "slug": "south-philadelphia",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "West Philadelphia",
+    "slug": "west-philadelphia",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "North Philadelphia",
+    "slug": "north-philadelphia",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Northeast Philadelphia",
+    "slug": "northeast-philadelphia",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Roxborough",
+    "slug": "roxborough",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Manayunk",
+    "slug": "manayunk",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Germantown",
+    "slug": "germantown",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Chestnut Hill",
+    "slug": "chestnut-hill",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Fishtown",
+    "slug": "fishtown",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Kensington",
+    "slug": "kensington",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Port Richmond",
+    "slug": "port-richmond",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "University City",
+    "slug": "university-city",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Fairmount",
+    "slug": "fairmount",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Society Hill",
+    "slug": "society-hill",
+    "state": "PA",
+    "county": "Philadelphia County, PA"
+  },
+  {
+    "name": "Wilmington",
+    "slug": "wilmington",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Newark",
+    "slug": "newark",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Middletown",
+    "slug": "middletown",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "New Castle",
+    "slug": "new-castle",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Delaware City",
+    "slug": "delaware-city",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Bellefonte",
+    "slug": "bellefonte",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Elsmere",
+    "slug": "elsmere",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Newport",
+    "slug": "newport",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Townsend",
+    "slug": "townsend",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Odessa",
+    "slug": "odessa",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Claymont",
+    "slug": "claymont",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Bear",
+    "slug": "bear",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Glasgow",
+    "slug": "glasgow",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Brookside",
+    "slug": "brookside",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Hockessin",
+    "slug": "hockessin",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Greenville",
+    "slug": "greenville",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Pike Creek",
+    "slug": "pike-creek",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "St. Georges",
+    "slug": "st-georges",
+    "state": "DE",
+    "county": "New Castle County, DE"
+  },
+  {
+    "name": "Elkton",
+    "slug": "elkton",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "North East",
+    "slug": "north-east",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Rising Sun",
+    "slug": "rising-sun",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Perryville",
+    "slug": "perryville",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Cecilton",
+    "slug": "cecilton",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Charlestown",
+    "slug": "charlestown",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Chesapeake City",
+    "slug": "chesapeake-city",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Port Deposit",
+    "slug": "port-deposit",
+    "state": "MD",
+    "county": "Cecil County, MD"
+  },
+  {
+    "name": "Rockville",
+    "slug": "rockville",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Gaithersburg",
+    "slug": "gaithersburg",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Germantown",
+    "slug": "germantown",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Bethesda",
+    "slug": "bethesda",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Silver Spring",
+    "slug": "silver-spring",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Potomac",
+    "slug": "potomac",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "North Bethesda",
+    "slug": "north-bethesda",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Kensington",
+    "slug": "kensington-md",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Chevy Chase",
+    "slug": "chevy-chase",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Derwood",
+    "slug": "derwood",
+    "state": "MD",
+    "county": "Montgomery County, MD"
+  },
+  {
+    "name": "Lancaster",
+    "slug": "lancaster",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Lititz",
+    "slug": "lititz",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Ephrata",
+    "slug": "ephrata",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Manheim",
+    "slug": "manheim",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Elizabethtown",
+    "slug": "elizabethtown",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Millersville",
+    "slug": "millersville",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Strasburg",
+    "slug": "strasburg",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Columbia",
+    "slug": "columbia-pa",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Mount Joy",
+    "slug": "mount-joy",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Quarryville",
+    "slug": "quarryville",
+    "state": "PA",
+    "county": "Lancaster County, PA"
+  },
+  {
+    "name": "Las Vegas",
+    "slug": "las-vegas",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Henderson",
+    "slug": "henderson",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "North Las Vegas",
+    "slug": "north-las-vegas",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Boulder City",
+    "slug": "boulder-city",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Summerlin",
+    "slug": "summerlin",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Enterprise",
+    "slug": "enterprise",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Spring Valley",
+    "slug": "spring-valley-nv",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Paradise",
+    "slug": "paradise",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Sunrise Manor",
+    "slug": "sunrise-manor",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Mesquite",
+    "slug": "mesquite",
+    "state": "NV",
+    "county": "Clark County, NV"
+  },
+  {
+    "name": "Myrtle Beach",
+    "slug": "myrtle-beach",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "North Myrtle Beach",
+    "slug": "north-myrtle-beach",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Conway",
+    "slug": "conway",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Surfside Beach",
+    "slug": "surfside-beach",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Murrells Inlet",
+    "slug": "murrells-inlet",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Little River",
+    "slug": "little-river",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Garden City",
+    "slug": "garden-city",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Carolina Forest",
+    "slug": "carolina-forest",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Loris",
+    "slug": "loris",
+    "state": "SC",
+    "county": "Horry County, SC"
+  },
+  {
+    "name": "Aynor",
+    "slug": "aynor",
+    "state": "SC",
+    "county": "Horry County, SC"
+  }
+]
