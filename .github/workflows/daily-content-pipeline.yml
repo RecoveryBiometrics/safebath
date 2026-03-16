@@ -15,11 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout workspace repo
         uses: actions/checkout@v4
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout website repo into site/
+        uses: actions/checkout@v4
+        with:
+          repository: RecoveryBiometrics/safebath-website
+          ref: main
+          path: site
+          token: ${{ secrets.WEBSITE_PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -37,10 +45,19 @@ jobs:
         run: node index.js
         working-directory: scripts/content-pipeline
 
-      - name: Commit new content to dev
+      - name: Commit pipeline state to workspace repo
         run: |
           git config user.name "SafeBath Content Pipeline"
           git config user.email "content-pipeline@safebathgrabbar.com"
-          git add site/src/data/local-news/ seo-data/pipeline-state.json
+          git add seo-data/pipeline-state.json
+          git diff --staged --quiet || git commit -m "Content pipeline: $(date +%Y-%m-%d) — update pipeline state"
+          git push origin main
+
+      - name: Commit new articles to website repo
+        working-directory: site
+        run: |
+          git config user.name "SafeBath Content Pipeline"
+          git config user.email "content-pipeline@safebathgrabbar.com"
+          git add src/data/local-news/
           git diff --staged --quiet || git commit -m "Content pipeline: $(date +%Y-%m-%d) — new local news articles"
           git push origin main
