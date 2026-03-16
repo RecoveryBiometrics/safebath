@@ -29,6 +29,12 @@ jobs:
           path: site
           token: ${{ secrets.WEBSITE_PAT }}
 
+      - name: Debug - verify site checkout
+        run: |
+          echo "Workspace: $GITHUB_WORKSPACE"
+          ls -la site/ || echo "site/ does not exist"
+          ls site/src/lib/constants.ts || echo "constants.ts not found"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
