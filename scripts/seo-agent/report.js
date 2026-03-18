@@ -297,45 +297,58 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
 }
 
 /**
- * Generate a plain-English email body (no markdown tables or formatting).
- * Same data as the markdown report, but written in readable paragraphs.
+ * Generate a plain-English, client-ready email body.
+ * Written for paying clients who want to understand what's happening
+ * with their SEO each week — and what we're doing about it.
  */
 function generateEmailBody(data, analysis, interpretation, reviewResult, inspection) {
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
-  let out = `SafeBath SEO Report — ${date}\n\n`;
-  out += `Here's your weekly SEO update for safebathgrabbar.com.\n\n`;
+  let out = `SafeBath SEO Weekly Update — ${date}\n`;
+  out += `=`.repeat(45) + `\n\n`;
+  out += `Here's your weekly update on how safebathgrabbar.com is performing in Google search.\n\n`;
 
   // --- Summary ---
-  out += `TRAFFIC OVERVIEW\n\n`;
+  out += `YOUR NUMBERS THIS WEEK\n\n`;
 
   const clickChange = pctChange(currentTotals.clicks, priorTotals.clicks);
   const impChange = pctChange(currentTotals.impressions, priorTotals.impressions);
 
-  out += `Over the last 28 days, the site got ${currentTotals.clicks} clicks`;
-  out += priorTotals.clicks ? ` (compared to ${priorTotals.clicks} last period${clickChange})` : '';
-  out += `. Back when the site launched (${BASELINE.period}), you were getting about ${BASELINE.clicks} clicks, so `;
+  out += `Over the last 28 days, your site received ${currentTotals.clicks} clicks from Google search`;
+  if (priorTotals.clicks) {
+    const clickDiff = currentTotals.clicks - priorTotals.clicks;
+    if (clickDiff > 0) {
+      out += ` — that's ${clickDiff} more than last period${clickChange}`;
+    } else if (clickDiff < 0) {
+      out += ` — that's ${Math.abs(clickDiff)} fewer than last period${clickChange}`;
+    } else {
+      out += ` — same as last period`;
+    }
+  }
+  out += `. For context, when the site first launched (${BASELINE.period}), it was getting about ${BASELINE.clicks} clicks per period`;
   out += currentTotals.clicks > BASELINE.clicks
-    ? `that's solid growth.\n\n`
-    : `there's room to grow.\n\n`;
+    ? `, so we've come a long way.\n\n`
+    : `. We're working to grow that number.\n\n`;
 
-  out += `Impressions (how often the site appeared in search results) were ${currentTotals.impressions}`;
-  out += priorTotals.impressions ? `${impChange} vs. last period` : '';
-  out += `. Click-through rate is ${(currentTotals.ctr * 100).toFixed(2)}%`;
-  out += ` and average position is ${fmt(currentTotals.avgPosition)}. We're tracking ${analysis.pageCount} pages total.\n\n`;
+  out += `Your site showed up in search results ${currentTotals.impressions} times`;
+  out += priorTotals.impressions ? `${impChange} compared to last period` : '';
+  out += `. Of those, ${(currentTotals.ctr * 100).toFixed(2)}% of people clicked through to the site. `;
+  out += `Your average search position across all pages is ${fmt(currentTotals.avgPosition)}. `;
+  out += `We're actively monitoring ${analysis.pageCount} pages.\n\n`;
 
   // --- Indexing ---
   if (inspection && !inspection.skipped && inspection.summary) {
     const s = inspection.summary;
-    out += `INDEXING STATUS\n\n`;
-    out += `We checked ${s.batchSize} pages this week. ${s.indexed} are indexed by Google and ${s.notIndexed} still aren't.`;
-    if (s.errors > 0) out += ` There were ${s.errors} errors during inspection.`;
+    out += `GOOGLE INDEXING UPDATE\n\n`;
+    out += `For your pages to show up in search results, Google needs to "index" them — basically add them to its database. `;
+    out += `This week we checked ${s.batchSize} pages: ${s.indexed} are fully indexed and live in Google, and ${s.notIndexed} are still waiting to be added.`;
+    if (s.errors > 0) out += ` We ran into ${s.errors} inspection errors that we'll keep an eye on.`;
     out += `\n\n`;
 
     const newlyIndexed = inspection.inspected.filter(r => r.verdict === 'PASS');
     if (newlyIndexed.length > 0) {
-      out += `Good news: ${newlyIndexed.length} page${newlyIndexed.length > 1 ? 's' : ''} that ${newlyIndexed.length > 1 ? 'were' : 'was'} previously not indexed ${newlyIndexed.length > 1 ? 'are' : 'is'} now showing up in Google:\n`;
+      out += `Good news — ${newlyIndexed.length} new page${newlyIndexed.length > 1 ? 's' : ''} got indexed since last week. That means Google picked them up and they're now eligible to appear in search results:\n\n`;
       for (const p of newlyIndexed) {
         const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
         out += `  - ${slug}\n`;
@@ -347,99 +360,111 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
       r => r.verdict !== 'PASS' && r.verdict !== 'ERROR'
     );
     if (stillNotIndexed.length > 0) {
-      out += `${stillNotIndexed.length} page${stillNotIndexed.length > 1 ? 's are' : ' is'} still not indexed. `;
-      out += `Google has crawled them but hasn't added them to search results yet. This is normal for newer pages — they usually get picked up over time.\n\n`;
+      out += `There are still ${stillNotIndexed.length} page${stillNotIndexed.length > 1 ? 's' : ''} waiting to be indexed. `;
+      out += `This is completely normal — Google processes new pages on its own schedule, and it can take several weeks. `;
+      out += `We're monitoring these and will flag anything that seems stuck.\n\n`;
     }
 
     const cumulativePath = path.join(__dirname, '../../seo-data/inspect-cumulative.json');
     if (fs.existsSync(cumulativePath)) {
       const cum = JSON.parse(fs.readFileSync(cumulativePath, 'utf8'));
       const rate = cum.totalInspected > 0 ? ((cum.indexed / cum.totalInspected) * 100).toFixed(1) : 0;
-      out += `Overall, ${cum.indexed} out of ${cum.totalInspected} total tracked pages are indexed (${rate}% index rate).\n\n`;
+      out += `Overall, ${cum.indexed} out of ${cum.totalInspected} total pages are indexed — a ${rate}% index rate.\n\n`;
     }
   }
 
   // --- Wins ---
   if (wins.length > 0) {
-    out += `PAGES MOVING UP\n\n`;
-    out += `${wins.length} page${wins.length > 1 ? 's' : ''} improved in search rankings this period:\n\n`;
+    out += `WHAT'S IMPROVING\n\n`;
+    out += `${wins.length} page${wins.length > 1 ? 's' : ''} moved up in Google rankings this period. `;
+    out += `This means people searching for your services are more likely to see these pages:\n\n`;
     for (const w of wins) {
       const slug = w.url.replace('https://safebathgrabbar.com', '') || '/';
-      out += `  ${slug} moved from position ${fmt(w.priorPosition)} to ${fmt(w.position)} (up ${fmt(w.positionDelta)} spots, ${w.clicks} click${w.clicks !== 1 ? 's' : ''})\n`;
+      out += `  ${slug}\n`;
+      out += `    Moved from position ${fmt(w.priorPosition)} to ${fmt(w.position)} (up ${fmt(w.positionDelta)} spots). Got ${w.clicks} click${w.clicks !== 1 ? 's' : ''} this period.\n\n`;
     }
-    out += `\n`;
+    out += `We'll keep reinforcing these pages with internal links and fresh content to hold and improve these positions.\n\n`;
   }
 
   // --- Drops ---
   if (drops.length > 0) {
-    out += `PAGES THAT DROPPED\n\n`;
-    out += `${drops.length} page${drops.length > 1 ? 's' : ''} lost ranking this period. Don't panic — some movement is normal, and recent SEO changes can take a few weeks to settle:\n\n`;
+    out += `WHAT SLIPPED\n\n`;
+    out += `${drops.length} page${drops.length > 1 ? 's' : ''} dropped in rankings this period. `;
+    out += `Some movement up and down is completely normal in SEO — Google is constantly re-evaluating pages. `;
+    out += `Here's what we saw:\n\n`;
     for (const d of drops) {
       const slug = d.url.replace('https://safebathgrabbar.com', '') || '/';
-      out += `  ${slug} went from position ${fmt(d.priorPosition)} to ${fmt(d.position)} (down ${fmt(Math.abs(d.positionDelta))} spots, ${d.impressions} impression${d.impressions !== 1 ? 's' : ''})\n`;
+      out += `  ${slug}\n`;
+      out += `    Went from position ${fmt(d.priorPosition)} to ${fmt(d.position)} (down ${fmt(Math.abs(d.positionDelta))} spots, ${d.impressions} impression${d.impressions !== 1 ? 's' : ''})\n\n`;
     }
-    out += `\n`;
+    out += `What we're doing about it: We review every drop to see if it's tied to a change we made, a Google algorithm update, or competitor activity. `;
+    out += `If a page keeps dropping for more than 2–3 weeks, we'll adjust the page content, title tags, or internal linking to recover it.\n\n`;
   }
 
   // --- Opportunities ---
   if (opportunities.length > 0) {
-    out += `CLOSE TO PAGE 1\n\n`;
-    out += `These pages are sitting between positions 8–20 in search results. They're close to page 1, and a little work (better title tags, a couple internal links) could push them over:\n\n`;
+    out += `ALMOST ON PAGE 1\n\n`;
+    out += `These pages are ranking between positions 8–20 — meaning they're close to Google's first page. `;
+    out += `With some targeted improvements like better title tags or a few internal links, we can push them onto page 1 where most clicks happen:\n\n`;
     for (const o of opportunities) {
       const slug = o.keys[0].replace('https://safebathgrabbar.com', '') || '/';
-      out += `  ${slug} — position ${fmt(o.position)}, ${o.impressions} impressions, ${(o.ctr * 100).toFixed(2)}% CTR\n`;
+      out += `  ${slug}\n`;
+      out += `    Currently at position ${fmt(o.position)} with ${o.impressions} impressions and ${(o.ctr * 100).toFixed(2)}% click-through rate.\n\n`;
     }
-    out += `\n`;
+    out += `These are our best short-term targets. We're prioritizing these pages for optimization.\n\n`;
   }
 
   // --- Gaps ---
   if (gaps.length > 0) {
-    out += `MISSING PAGES\n\n`;
-    out += `People are searching for these terms and seeing the site, but nobody is clicking. These could be good candidates for new dedicated pages:\n\n`;
+    out += `SEARCH TERMS WE'RE MISSING\n\n`;
+    out += `People are searching for these terms and your site is showing up, but nobody is clicking through. `;
+    out += `This usually means we don't have a dedicated page targeting that exact search term yet:\n\n`;
     for (const g of gaps) {
-      out += `  "${g.keys[0]}" — ${g.impressions} impressions, average position ${fmt(g.position)}\n`;
+      out += `  "${g.keys[0]}" — ${g.impressions} people saw your site for this search, average position ${fmt(g.position)}\n`;
     }
-    out += `\n`;
+    out += `\nEach of these is a potential new page we can create to capture this traffic. We'll evaluate which ones have the best potential and add them to the content plan.\n\n`;
   }
 
   // --- Interpretation / Analysis ---
   if (interpretation && reviewResult) {
-    out += `ANALYSIS\n\n`;
-    out += `Overall confidence in this week's analysis: ${reviewResult.overallConfidence}. `;
-    out += `We were able to link ${reviewResult.stats.totalAttributed} page movement${reviewResult.stats.totalAttributed !== 1 ? 's' : ''} to specific SEO changes we made. `;
-    out += `${reviewResult.stats.totalUnattributed} movement${reviewResult.stats.totalUnattributed !== 1 ? 's' : ''} couldn't be explained by our changes (could be Google algorithm updates or competitor activity).\n\n`;
+    out += `WHAT'S DRIVING THESE RESULTS\n\n`;
 
     if (interpretation.attributions.length > 0) {
-      out += `Here's what we can connect to specific changes we made:\n\n`;
+      out += `We were able to connect ${reviewResult.stats.totalAttributed} ranking change${reviewResult.stats.totalAttributed !== 1 ? 's' : ''} to specific work we've done on the site:\n\n`;
       for (const attr of interpretation.attributions) {
         const slug = attr.url.replace('https://safebathgrabbar.com', '') || attr.url;
         const dir = attr.direction === 'up' ? 'improved' : 'dropped';
-        const deltaSign = attr.direction === 'up' ? 'up' : 'down';
-        out += `  ${slug} ${dir} from position ${fmt(attr.positionWas)} to ${fmt(attr.positionNow)} (${deltaSign} ${fmt(Math.abs(attr.delta))}). `;
-        out += `This is likely because of "${attr.likelyCause.change}" which we deployed ${attr.likelyCause.weeksAgo} week${attr.likelyCause.weeksAgo !== 1 ? 's' : ''} ago. `;
-        out += `Confidence: ${attr.likelyCause.confidence}.\n\n`;
+        const deltaDir = attr.direction === 'up' ? 'up' : 'down';
+        out += `  ${slug} ${dir} from position ${fmt(attr.positionWas)} to ${fmt(attr.positionNow)} (${deltaDir} ${fmt(Math.abs(attr.delta))} spots). `;
+        out += `This is likely the result of "${attr.likelyCause.change}" which we deployed ${attr.likelyCause.weeksAgo} week${attr.likelyCause.weeksAgo !== 1 ? 's' : ''} ago`;
+        out += attr.likelyCause.confidence === 'high' ? ` (high confidence).\n\n` : ` (${attr.likelyCause.confidence} confidence — we'll keep watching).\n\n`;
       }
     }
 
+    if (reviewResult.stats.totalUnattributed > 0) {
+      out += `${reviewResult.stats.totalUnattributed} page${reviewResult.stats.totalUnattributed !== 1 ? 's' : ''} moved in rankings but we can't tie ${reviewResult.stats.totalUnattributed !== 1 ? 'them' : 'it'} to a specific change we made. `;
+      out += `This can happen due to Google algorithm updates, competitor changes, or new backlinks. We're tracking these to see if a pattern emerges.\n\n`;
+    }
+
     if (interpretation.boostedOpportunities.length > 0) {
-      out += `Some of our recent changes are helping pages that are close to page 1:\n\n`;
+      out += `Some of our recent work is helping pages that are close to page 1:\n\n`;
       for (const opp of interpretation.boostedOpportunities) {
         const slug = opp.url.replace('https://safebathgrabbar.com', '') || opp.url;
-        out += `  ${slug} is at position ${fmt(opp.position)} with ${opp.impressions} impressions. Our "${opp.change}" change from ${opp.weeksAgo} weeks ago is helping it climb.\n`;
+        out += `  ${slug} is at position ${fmt(opp.position)} with ${opp.impressions} impressions — and our "${opp.change}" update from ${opp.weeksAgo} weeks ago is helping it climb.\n`;
       }
       out += `\n`;
     }
 
     if (reviewResult.warnings.length > 0) {
-      out += `THINGS TO WATCH\n\n`;
+      out += `THINGS WE'RE WATCHING\n\n`;
       for (const w of reviewResult.warnings) {
         out += `  - ${w.message}\n`;
       }
-      out += `\n`;
+      out += `\nWe're keeping an eye on these and will take action if needed.\n\n`;
     }
 
     if (reviewResult.insights.length > 0) {
-      out += `RECOMMENDATIONS\n\n`;
+      out += `OUR RECOMMENDATIONS\n\n`;
       for (const i of reviewResult.insights) {
         out += `  - ${i.message}\n`;
       }
@@ -452,20 +477,24 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
   const pending = allChanges.filter(c => !c.isComplete);
 
   if (pending.length > 0) {
-    out += `CHANGES STILL COOKING\n\n`;
-    out += `These are SEO changes we've made that haven't had enough time to fully show results yet. Don't reverse them — give them time:\n\n`;
+    out += `WORK IN PROGRESS\n\n`;
+    out += `SEO changes typically take 4–12 weeks to show their full effect in Google. Here are changes we've made that are still building momentum:\n\n`;
     for (const c of pending) {
       const weeks = weeksSince(c.deployed);
       let status;
-      if (weeks < 8) status = 'too early to evaluate';
-      else if (weeks < 12) status = 'starting to see data';
-      else status = 'ready to assess';
-      out += `  "${c.label}" — deployed ${c.deployed} (${weeks} weeks ago, ${status})\n`;
+      if (weeks < 4) status = 'just deployed — too early for results';
+      else if (weeks < 8) status = 'building momentum — early signs may appear soon';
+      else if (weeks < 12) status = 'should be showing results — we\'re evaluating';
+      else status = 'fully matured — ready to assess impact';
+      out += `  "${c.label}"\n`;
+      out += `    Deployed ${c.deployed} (${weeks} week${weeks !== 1 ? 's' : ''} ago). Status: ${status}.\n\n`;
     }
-    out += `\n`;
   }
 
-  out += `---\nNext report comes automatically next Tuesday at 9am ET.\n`;
+  out += `—\n\n`;
+  out += `That's it for this week. If you have any questions about this report or want to discuss strategy, just reply to this email.\n\n`;
+  out += `Your next update will arrive automatically next Tuesday at 9am ET.\n\n`;
+  out += `— SafeBath SEO Team\n`;
 
   return out;
 }
