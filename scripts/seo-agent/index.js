@@ -5,7 +5,7 @@ const { inspectPages } = require('./inspect');
 const { analyze } = require('./analyze');
 const { interpret } = require('./interpret');
 const { review } = require('./review');
-const { generateReport } = require('./report');
+const { generateReport, generateEmailBody } = require('./report');
 const { sendReport } = require('./email');
 
 async function run() {
@@ -42,9 +42,10 @@ async function run() {
     console.log('[6/6] Generating report...');
     const { md, reportPath } = generateReport(data, analysis, interpretation, reviewResult, inspection);
 
-    // Email the report
+    // Email the report (plain English version, not the markdown)
     const date = new Date().toISOString().split('T')[0];
-    await sendReport(`SafeBath SEO Report — ${date}`, md);
+    const emailBody = generateEmailBody(data, analysis, interpretation, reviewResult, inspection);
+    await sendReport(`SafeBath SEO Report — ${date}`, emailBody);
 
     console.log('\nDone.');
     console.log(`  Clicks:       ${analysis.currentTotals.clicks}`);
