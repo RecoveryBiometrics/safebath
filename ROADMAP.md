@@ -251,11 +251,51 @@ _~15 minutes. One-time setup._
 
 > **Note:** The same service account key already stored in GitHub (`GOOGLE_SERVICE_ACCOUNT_KEY`) will work for GBP too — no new secret needed.
 
+### Step 1.5 — GBP Category & Service Optimization (Manual — GBP Dashboard) 🔥 NEXT UP
+
+_Do this before connecting the API. All changes in the GBP dashboard, spread over a few days to avoid flags._
+
+**⚠️ Ban Prevention Rules:**
+- Never keyword-stuff the business name — keep it exactly as registered
+- Make changes one at a time over a few days, not all at once
+- Don't flip categories back and forth — pick the right ones and leave them
+- Keep NAP (name/address/phone) identical across GBP, website, and all citations
+
+**Categories:**
+- [ ] Set primary category: **Bathroom Remodeler**
+- [ ] Add secondary: **Handicapped Equipment & Supplies**
+- [ ] Add secondary: **Home Health Care Service**
+- [ ] Add secondary: **Contractor**
+- [ ] Add secondary: **Handyman**
+
+**Services (add all 7 with prices + descriptions):**
+- [ ] Bathroom Grab Bar Installation — $199+
+- [ ] Shower Safety Handle Installation — $199+
+- [ ] Handicap Bathtub Rail Installation — $199+
+- [ ] Toilet Safety Frame Installation — $199+
+- [ ] Accessible Shower Seat Installation — $199+
+- [ ] Handheld Shower Installation — $199+
+- [ ] Stair & Garage Railing Installation — $249+
+
+**Business Description (750 chars max, no keyword stuffing):**
+- [ ] Write clean description: what you do, where you serve (PA/DE/MD/NV/SC), differentiators (licensed, insured, lifetime labor warranty, same-week scheduling, $199 starting price)
+
+**Service Areas (add all counties):**
+- [ ] Chester County, PA + surrounding counties
+- [ ] New Castle County, DE
+- [ ] Cecil County, MD
+- [ ] Clark County, NV (Las Vegas)
+- [ ] Horry County, SC (Myrtle Beach)
+
+**NAP Consistency:**
+- [ ] Verify business name, address, phone match exactly between GBP and website constants.ts
+- [ ] Note: constants.ts has placeholder address "123 Safety First Lane" — update to match real GBP address or remove if SAB
+
 ### Step 2 — GBP Completeness Audit (Claude does this)
 
 - [ ] Pull current GBP listing via API — check every field
 - [ ] Fill all missing fields: services list, service area (all counties), business description, hours, attributes, appointment link, website URL
-- [ ] Add primary + secondary categories
+- [ ] Verify categories match Step 1.5 selections
 - [ ] Seed Q&A with top 10 questions people actually search for
 
 ### Step 3 — Reddit Scraper Agent (Claude builds this)
