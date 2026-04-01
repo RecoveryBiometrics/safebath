@@ -20,3 +20,4 @@ site/
 node_modules/
 .venv/
 safebath.mcp.json
+.claude/

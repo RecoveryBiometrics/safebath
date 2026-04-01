@@ -1,6 +1,15 @@
-# SafeBath Workspace — Claude Context
+# SafeBath SEO — Claude Context
 
 > This file is auto-loaded at the start of every Claude session. Always read this first.
+
+## Org Position
+- **Business:** SafeBath Grab Bar
+- **Director:** Director of SafeBath → reports to VP of Growth
+- **Dashboard:** https://dashboard-pied-three-98.vercel.app
+
+## Skills Used
+- **SEO Content Pipeline** → daily content pipeline + weekly SEO reports (`/seo-content-pipeline`)
+- **SEO Reporting Team** → GSC fetcher, indexing inspector, SEO analyst, keyword miner
 
 ---
 
