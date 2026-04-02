@@ -142,6 +142,102 @@
 
 ---
 
+### 2026-04-02 — www → non-www 301 Redirect (Canonical Fix)
+
+**Type:** Technical SEO / domain canonicalization
+
+**URLs affected:** All pages — site-wide edge redirect via `vercel.json`
+
+**What was deployed:**
+- Added 301 redirect from `www.safebathgrabbar.com/*` → `safebathgrabbar.com/*` at Vercel edge
+- Google was indexing both www and non-www as separate pages, splitting authority
+- Homepage alone had 310 impressions on www + 243 on non-www = 553 total, split across two competing URLs
+- Several other pages (Philly County, grab bar hub) also appeared under www
+
+**Expected impact:** Consolidation of all link equity and authority onto single canonical domain. Should help all pages, especially homepage (currently pos 18-20). This is the single highest-impact technical fix — all other SEO work was being diluted by this split. Timeline: 2-4 weeks for Google to consolidate.
+
+**Check results:** Week of April 21, 2026
+
+**Status:** 🟡 Deployed — monitoring consolidation
+
+---
+
+### 2026-04-02 — GA4 Analytics (G-M1Q5T7BLG2)
+
+**Type:** Analytics / tracking
+
+**URLs affected:** All pages — added to root layout
+
+**What was deployed:**
+- Added Google Analytics 4 tracking via `next/script` with `afterInteractive` strategy
+- Measurement ID: G-M1Q5T7BLG2
+- Enhanced measurement on: page views, scrolls, outbound clicks, file downloads, phone link clicks
+- No analytics existed before this — zero visibility into post-click behavior
+
+**Expected impact:** No ranking impact (analytics doesn't affect SEO). Provides conversion data, bounce rates, phone click tracking needed to evaluate page effectiveness.
+
+**Status:** ✅ Live
+
+---
+
+### 2026-04-02 — Internal Linking Overhaul (All Page Types)
+
+**Type:** Internal linking structure
+
+**URLs affected:** All city pages (167), all city+service pages (~1,500), all county pages (9), homepage
+
+**What was deployed:**
+- **City pages:** New "Bathroom Safety Across [County]" section with contextual link to parent county page + up to 12 neighboring city links as pill buttons
+- **Service pages:** Added county landing page link ("All bathroom safety services in [County]"), services page link, directory link, and homepage link in Learn More section
+- **County pages:** New 3-column footer section with links to other counties, popular service combos (grab bar, shower seat, railing for that county), and resources (homepage, hub page, directory)
+- **Homepage:** Added missing H2 "Why Homeowners Trust SafeBath" before value prop section (fixes heading hierarchy gap: H1 → H3 was skipping H2)
+
+**Expected impact:** Significantly improved internal link equity flow. Every city page now passes authority up to its county page. Every service page links to county landing, services hub, directory, and homepage. County pages cross-link to each other. This directly addresses the weak internal linking that was limiting county page rankings (Chester County at pos 10.2 had only nav links pointing to it). Timeline: 4-8 weeks for full effect.
+
+**Check results:** Week of May 14, 2026
+
+**Status:** 🟡 Deployed — monitoring
+
+---
+
+### 2026-04-02 — Chester County Metadata Optimization
+
+**Type:** On-page SEO
+
+**URLs affected:** `/bathroom-safety-chester-county-pa`, all other county landing pages
+
+**What was deployed:**
+- Chester County title: `Grab Bar & Bathroom Safety Installation in Chester County, PA | Up to $22K in Grant Programs`
+- Chester County meta description: mentions CCHMP grant ($22,000) and PA Whole-Home Repair Program specifically
+- All other county titles updated from generic "Bathroom Safety Experts in [County]" to "Grab Bar & Bathroom Safety Installation in [County] | Licensed Local Experts"
+- All other county meta descriptions updated with specific trust signals (ADA-compliant, 20+ years, lifetime warranty)
+
+**Expected impact:** Chester County is the closest page to page 1 (pos 10.2, 65 impressions). The grant program mention differentiates from competitors and should improve CTR. Timeline: 4-8 weeks.
+
+**Check results:** Week of May 14, 2026
+
+**Status:** 🟡 Deployed — monitoring
+
+---
+
+### 2026-04-02 — SEO Agent Updates (Full Data Pull + Slack Delivery)
+
+**Type:** Infrastructure / reporting
+
+**What was changed:**
+- `fetch-gsc.js`: rowLimit 500 → 25,000 (pull all data)
+- `inspect.js`: Now inspects ALL 2,052 pages from sitemap every run (was batching 200/week from stale March 14 baseline of 708 URLs)
+- `inspect.js`: Reads from live Next.js sitemap instead of hardcoded markdown baseline
+- `index.js` + new `slack.js`: Weekly report now posts to Slack #safebath instead of email
+- `report.js`: Updated labels (no more "batch X of Y" language)
+- `gsc-query.js`: Fixed output path bug (was writing to wrong directory)
+
+**Expected impact:** Accurate reporting — previous reports showed 12/200 indexed when GSC dashboard showed 176/1,500+. No ranking impact.
+
+**Status:** ✅ Live (pending SLACK_BOT_TOKEN in GitHub Actions secrets for automated delivery)
+
+---
+
 ## What's NOT Done Yet (Planned)
 
 | Item | Priority | Expected Impact |
