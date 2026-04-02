@@ -91,7 +91,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
   if (inspection && !inspection.skipped && inspection.summary) {
     const s = inspection.summary;
     md += `## Indexing Status — Crawled-Not-Indexed Tracker\n\n`;
-    md += `> Checked ${s.batchSize} pages this run (batch ${s.batchRange} of ${s.totalTracked} tracked)\n\n`;
+    md += `> Checked all ${s.totalPages} pages from sitemap\n\n`;
     md += `| Status | Count |\n`;
     md += `|--------|-------|\n`;
     md += `| Indexed (PASS) | **${s.indexed}** |\n`;
@@ -301,7 +301,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
  * Written for paying clients who want to understand what's happening
  * with their SEO each week — and what we're doing about it.
  */
-function generateEmailBody(data, analysis, interpretation, reviewResult, inspection) {
+function generateEmailBody(data, analysis, interpretation, reviewResult, inspection, ga4 = null) {
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
@@ -337,12 +337,67 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
   out += `Your average search position across all pages is ${fmt(currentTotals.avgPosition)}. `;
   out += `We're actively monitoring ${analysis.pageCount} pages.\n\n`;
 
+  // --- GA4 Website Traffic ---
+  if (ga4 && ga4.current) {
+    const c = ga4.current;
+    const p = ga4.prior;
+
+    out += `WEBSITE TRAFFIC\n\n`;
+    out += `Your site had ${c.sessions} visit${c.sessions !== 1 ? 's' : ''} from ${c.users} people over the last 28 days`;
+    if (p) {
+      const diff = c.sessions - p.sessions;
+      if (diff > 0) out += ` — that's ${diff} more visits than the prior period`;
+      else if (diff < 0) out += ` — that's ${Math.abs(diff)} fewer visits than the prior period`;
+      else out += ` — same as the prior period`;
+    }
+    out += `. They viewed ${c.pageviews} pages total. `;
+
+    const avgMins = Math.floor(c.avgSessionDuration / 60);
+    const avgSecs = Math.round(c.avgSessionDuration % 60);
+    out += `The average visitor spent ${avgMins > 0 ? avgMins + ' minute' + (avgMins !== 1 ? 's' : '') + ' and ' : ''}${avgSecs} seconds on the site. `;
+
+    const bouncePercent = (c.bounceRate * 100).toFixed(0);
+    out += `${bouncePercent}% of visitors left without interacting (bounce rate)`;
+    if (parseInt(bouncePercent) > 70) {
+      out += ` — that's on the high side, which usually means people aren't finding what they expected or the page isn't compelling enough to keep them`;
+    } else if (parseInt(bouncePercent) < 40) {
+      out += ` — that's really good, meaning most visitors are engaging with the site`;
+    }
+    out += `.\n\n`;
+
+    if (ga4.phoneClicks > 0) {
+      out += `${ga4.phoneClicks} people clicked on a phone number link on the site — those are potential leads.\n\n`;
+    }
+
+    if (ga4.sources && ga4.sources.length > 0) {
+      out += `Where your traffic is coming from:\n\n`;
+      for (const s of ga4.sources) {
+        const engageRate = s.sessions > 0 ? ((s.engaged / s.sessions) * 100).toFixed(0) : 0;
+        out += `  ${s.channel}: ${s.sessions} visits from ${s.users} people (${engageRate}% engaged)\n`;
+      }
+      out += `\n`;
+      const organicSource = ga4.sources.find(s => s.channel === 'Organic Search');
+      if (organicSource) {
+        out += `Organic Search (people finding you through Google) brought in ${organicSource.sessions} visits. This is the number we're working to grow through SEO.\n\n`;
+      }
+    }
+
+    if (ga4.topPages && ga4.topPages.length > 0) {
+      out += `Your most visited pages:\n\n`;
+      for (const pg of ga4.topPages.slice(0, 10)) {
+        const dur = Math.round(pg.avgDuration);
+        out += `  ${pg.path} — ${pg.sessions} visits, ${dur}s avg time on page\n`;
+      }
+      out += `\n`;
+    }
+  }
+
   // --- Indexing ---
   if (inspection && !inspection.skipped && inspection.summary) {
     const s = inspection.summary;
     out += `GOOGLE INDEXING UPDATE\n\n`;
     out += `For your pages to show up in search results, Google needs to "index" them — basically add them to its database. `;
-    out += `This week we checked ${s.batchSize} pages: ${s.indexed} are fully indexed and live in Google, and ${s.notIndexed} are still waiting to be added.`;
+    out += `This week we checked all ${s.totalPages} pages on the site: ${s.indexed} are fully indexed and live in Google, and ${s.notIndexed} are still waiting to be added.`;
     if (s.errors > 0) out += ` We ran into ${s.errors} inspection errors that we'll keep an eye on.`;
     out += `\n\n`;
 
@@ -492,9 +547,8 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
   }
 
   out += `—\n\n`;
-  out += `That's it for this week. If you have any questions about this report or want to discuss strategy, just reply to this email.\n\n`;
-  out += `Your next update will arrive automatically next Tuesday at 9am ET.\n\n`;
-  out += `— SafeBath SEO Team\n`;
+  out += `That's it for this week. Next update drops here automatically next Tuesday at 9am ET.\n\n`;
+  out += `— SafeBath SEO Agent\n`;
 
   return out;
 }

@@ -99,7 +99,7 @@ async function main() {
 
     // Load all known pages from sitemap or constants
     // For now, save the pages that DO have data
-    const outputPath = path.join(__dirname, 'seo-reports', `gsc-pages-with-data-${endDate}.json`);
+    const outputPath = path.join(__dirname, '..', 'seo-reports', `gsc-pages-with-data-${endDate}.json`);
     const output = {
       generatedAt: new Date().toISOString(),
       dateRange: { start: startDate, end: endDate },

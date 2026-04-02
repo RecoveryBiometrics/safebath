@@ -15,7 +15,7 @@ function getDateRange(daysBack, length = 28) {
   };
 }
 
-async function query(wm, dates, dimensions, rowLimit = 500) {
+async function query(wm, dates, dimensions, rowLimit = 25000) {
   const res = await wm.searchanalytics.query({
     siteUrl: SITE_URL,
     requestBody: { ...dates, dimensions, rowLimit },

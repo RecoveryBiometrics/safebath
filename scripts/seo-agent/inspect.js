@@ -4,12 +4,11 @@ const path = require('path');
 const { getAuthClient } = require('./auth');
 
 const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com';
+const SITE_BASE = 'https://safebathgrabbar.com';
 const DATA_DIR = path.join(__dirname, '../../seo-data');
-const NOT_INDEXED_PATH = path.join(__dirname, '../../seo-reports/not-indexed-pages-2026-03-14.md');
 
-// Inspect 200 pages per run to stay well within 2,000/day API limit.
-// Full list (~700 pages) rotates through in ~4 weekly runs.
-const BATCH_SIZE = 200;
+// Sitemap built by Next.js — the single source of truth for all URLs
+const SITEMAP_PATH = path.join(__dirname, '../../../website/.next/server/app/sitemap.xml.body');
 
 // Delay between API calls to avoid rate limiting (ms)
 const DELAY_MS = 150;
@@ -19,41 +18,24 @@ function sleep(ms) {
 }
 
 /**
- * Parse the not-indexed baseline markdown file.
- * Returns array of URL paths like ['/bathroom-safety-philadelphia-pa/...', ...]
+ * Parse ALL URLs from the live sitemap XML.
+ * Returns array of full URLs like ['https://safebathgrabbar.com/...', ...]
  */
-function parseNotIndexedList() {
-  if (!fs.existsSync(NOT_INDEXED_PATH)) {
-    console.warn('Not-indexed baseline file not found — skipping inspection');
+function getAllUrlsFromSitemap() {
+  if (!fs.existsSync(SITEMAP_PATH)) {
+    console.warn('Sitemap not found at', SITEMAP_PATH, '— skipping inspection');
     return [];
   }
-  const content = fs.readFileSync(NOT_INDEXED_PATH, 'utf8');
+  const content = fs.readFileSync(SITEMAP_PATH, 'utf8');
   const urls = [];
-  for (const line of content.split('\n')) {
-    const match = line.match(/^- \[[ x]\] (\/\S+)/);
-    if (match) urls.push(match[1]);
+  const regex = /<loc>(.*?)<\/loc>/g;
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    urls.push(match[1]);
   }
   return urls;
 }
 
-/**
- * Load previous inspection state to know where we left off.
- */
-function loadState() {
-  const statePath = path.join(DATA_DIR, 'inspect-state.json');
-  if (fs.existsSync(statePath)) {
-    return JSON.parse(fs.readFileSync(statePath, 'utf8'));
-  }
-  return { lastOffset: 0 };
-}
-
-function saveState(state) {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'inspect-state.json'),
-    JSON.stringify(state, null, 2)
-  );
-}
 
 /**
  * Inspect a single URL via the URL Inspection API.
@@ -93,42 +75,32 @@ async function inspectUrl(searchconsole, fullUrl) {
 }
 
 /**
- * Run URL inspection on a batch of not-indexed pages.
- * Rotates through the full list across multiple runs.
+ * Run URL inspection on ALL pages from the sitemap.
+ * 2,052 URLs at 150ms delay = ~5 minutes. Well within 2,000/day API limit.
  */
 async function inspectPages() {
-  const allPaths = parseNotIndexedList();
-  if (allPaths.length === 0) {
+  const allUrls = getAllUrlsFromSitemap();
+  if (allUrls.length === 0) {
     return { inspected: [], summary: null, skipped: true };
   }
 
-  const state = loadState();
-  let offset = state.lastOffset;
-
-  // Wrap around if we've gone through the whole list
-  if (offset >= allPaths.length) offset = 0;
-
-  const batch = allPaths.slice(offset, offset + BATCH_SIZE);
-  const nextOffset = offset + batch.length;
-
-  console.log(`Inspecting ${batch.length} pages (${offset + 1}–${offset + batch.length} of ${allPaths.length})`);
+  console.log(`Inspecting ALL ${allUrls.length} pages from sitemap`);
 
   const auth = await getAuthClient();
   const searchconsole = google.searchconsole({ version: 'v1', auth });
 
   const results = [];
-  for (let i = 0; i < batch.length; i++) {
-    const urlPath = batch[i];
-    const fullUrl = `https://safebathgrabbar.com${urlPath}`;
+  for (let i = 0; i < allUrls.length; i++) {
+    const fullUrl = allUrls[i];
 
     if (i > 0) await sleep(DELAY_MS);
 
     const result = await inspectUrl(searchconsole, fullUrl);
     results.push(result);
 
-    // Progress every 50
-    if ((i + 1) % 50 === 0) {
-      console.log(`  ...inspected ${i + 1}/${batch.length}`);
+    // Progress every 100
+    if ((i + 1) % 100 === 0) {
+      console.log(`  ...inspected ${i + 1}/${allUrls.length}`);
     }
   }
 
@@ -139,9 +111,7 @@ async function inspectPages() {
 
   const summary = {
     inspectedAt: new Date().toISOString(),
-    totalTracked: allPaths.length,
-    batchRange: `${offset + 1}–${offset + batch.length}`,
-    batchSize: batch.length,
+    totalPages: allUrls.length,
     indexed,
     notIndexed,
     errors,
@@ -166,9 +136,6 @@ async function inspectPages() {
 
   // Also save/update the latest cumulative view
   updateCumulativeResults(results);
-
-  // Save rotation state
-  saveState({ lastOffset: nextOffset >= allPaths.length ? 0 : nextOffset });
 
   console.log(`Inspection complete: ${indexed} indexed, ${notIndexed} not indexed, ${errors} errors`);
 

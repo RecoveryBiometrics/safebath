@@ -1,7 +1,11 @@
 const { google } = require('googleapis');
 
 // webmasters scope (not readonly) is required for URL Inspection API
-const SCOPES = ['https://www.googleapis.com/auth/webmasters'];
+// analytics.readonly is required for GA4 Data API
+const SCOPES = [
+  'https://www.googleapis.com/auth/webmasters',
+  'https://www.googleapis.com/auth/analytics.readonly',
+];
 
 async function getAuthClient() {
   const key = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
