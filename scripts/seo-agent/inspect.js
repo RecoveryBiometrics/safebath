@@ -2,13 +2,13 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 const { getAuthClient } = require('./auth');
+const config = require('./config');
 
-const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com';
-const SITE_BASE = 'https://safebathgrabbar.com';
-const DATA_DIR = path.join(__dirname, '../../seo-data');
-
-// Sitemap built by Next.js — the single source of truth for all URLs
-const SITEMAP_PATH = path.join(__dirname, '../../../website/.next/server/app/sitemap.xml.body');
+const SITE_URL = config.gscSiteUrl;
+const SITE_BASE = config.siteBase;
+const DATA_DIR = config.dataDir;
+const SITEMAP_PATH = config.sitemapPath;
+const SITEMAP_URL = config.sitemapUrl;
 
 // Delay between API calls to avoid rate limiting (ms)
 const DELAY_MS = 150;
@@ -18,15 +18,30 @@ function sleep(ms) {
 }
 
 /**
- * Parse ALL URLs from the live sitemap XML.
- * Returns array of full URLs like ['https://safebathgrabbar.com/...', ...]
+ * Parse ALL URLs from the sitemap XML.
+ * Supports both a remote URL (SITEMAP_URL) and a local file (SITEMAP_PATH).
+ * Returns array of full URLs like ['https://example.com/...', ...]
  */
-function getAllUrlsFromSitemap() {
-  if (!fs.existsSync(SITEMAP_PATH)) {
-    console.warn('Sitemap not found at', SITEMAP_PATH, '— skipping inspection');
+async function getAllUrlsFromSitemap() {
+  let content = '';
+
+  // Prefer remote URL if set (works for any business without local file access)
+  if (SITEMAP_URL) {
+    try {
+      const res = await fetch(SITEMAP_URL);
+      content = await res.text();
+      console.log(`  Fetched sitemap from ${SITEMAP_URL}`);
+    } catch (err) {
+      console.warn(`  Failed to fetch sitemap from ${SITEMAP_URL}:`, err.message);
+      return [];
+    }
+  } else if (fs.existsSync(SITEMAP_PATH)) {
+    content = fs.readFileSync(SITEMAP_PATH, 'utf8');
+  } else {
+    console.warn('  No sitemap available (set SITEMAP_URL or SITEMAP_PATH) — skipping inspection');
     return [];
   }
-  const content = fs.readFileSync(SITEMAP_PATH, 'utf8');
+
   const urls = [];
   const regex = /<loc>(.*?)<\/loc>/g;
   let match;
@@ -79,7 +94,7 @@ async function inspectUrl(searchconsole, fullUrl) {
  * 2,052 URLs at 150ms delay = ~5 minutes. Well within 2,000/day API limit.
  */
 async function inspectPages() {
-  const allUrls = getAllUrlsFromSitemap();
+  const allUrls = await getAllUrlsFromSitemap();
   if (allUrls.length === 0) {
     return { inspected: [], summary: null, skipped: true };
   }

@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('./config');
 
-const CHANGELOG_PATH = path.join(__dirname, '../../SEO-CHANGELOG.md');
-const SITE = 'https://safebathgrabbar.com';
+const CHANGELOG_PATH = config.changelogPath;
+const SITE = config.siteBase;
 
 /**
  * Parse changelog entries with their URL patterns.

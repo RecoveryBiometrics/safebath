@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const config = require('./config');
 const { fetchSearchConsoleData } = require('./fetch-gsc');
 const { fetchGA4Data } = require('./fetch-ga4');
 const { inspectPages } = require('./inspect');
@@ -10,11 +11,11 @@ const { generateReport, generateEmailBody } = require('./report');
 const { sendToSlack } = require('./slack');
 
 async function run() {
-  console.log('SafeBath SEO Agent starting...');
+  console.log(`${config.businessName} SEO Agent starting...`);
 
   if (!process.env.GOOGLE_SERVICE_ACCOUNT_KEY) {
     console.error('\n ERROR: GOOGLE_SERVICE_ACCOUNT_KEY is not set.');
-    console.error(' See scripts/seo-agent/SETUP.md for setup instructions.\n');
+    console.error(' Set it in .env or as a GitHub Actions secret.\n');
     process.exit(1);
   }
 
@@ -55,7 +56,7 @@ async function run() {
     // Send report to Slack #safebath channel
     const date = new Date().toISOString().split('T')[0];
     const emailBody = generateEmailBody(data, analysis, interpretation, reviewResult, inspection, ga4);
-    await sendToSlack(`SafeBath SEO Report — ${date}`, emailBody);
+    await sendToSlack(`${config.businessName} SEO Report — ${date}`, emailBody);
 
     console.log('\nDone.');
     console.log(`  Clicks:       ${analysis.currentTotals.clicks}`);

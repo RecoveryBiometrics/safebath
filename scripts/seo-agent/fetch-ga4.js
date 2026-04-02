@@ -2,9 +2,10 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 const { getAuthClient } = require('./auth');
+const config = require('./config');
 
-const PROPERTY_ID = '14299063401';
-const DATA_DIR = path.join(__dirname, '../../seo-data');
+const PROPERTY_ID = config.ga4PropertyId;
+const DATA_DIR = config.dataDir;
 
 /**
  * Fetch GA4 data for the last 28 days + prior 28 days.

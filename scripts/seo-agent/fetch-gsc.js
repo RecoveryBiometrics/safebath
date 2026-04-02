@@ -2,9 +2,10 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 const { getAuthClient } = require('./auth');
+const config = require('./config');
 
-const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com';
-const DATA_DIR = path.join(__dirname, '../../seo-data');
+const SITE_URL = config.gscSiteUrl;
+const DATA_DIR = config.dataDir;
 
 function getDateRange(daysBack, length = 28) {
   const end = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);

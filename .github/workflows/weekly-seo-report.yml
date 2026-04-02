@@ -32,15 +32,22 @@ jobs:
       - name: Run SEO agent
         env:
           GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
-          GSC_SITE_URL: sc-domain:safebathgrabbar.com
           GOOGLE_OAUTH_CREDENTIALS: ${{ secrets.GOOGLE_OAUTH_CREDENTIALS }}
+          # Business config — change these per business
+          BUSINESS_NAME: ${{ vars.BUSINESS_NAME || 'SafeBath Grab Bar' }}
+          GSC_SITE_URL: ${{ vars.GSC_SITE_URL || 'sc-domain:safebathgrabbar.com' }}
+          GA4_PROPERTY_ID: ${{ vars.GA4_PROPERTY_ID || '14299063401' }}
+          SITE_BASE: ${{ vars.SITE_BASE || 'https://safebathgrabbar.com' }}
+          SITEMAP_URL: ${{ vars.SITEMAP_URL || '' }}
+          SLACK_CHANNEL_ID: ${{ vars.SLACK_CHANNEL_ID || 'C0AQCHCC2JW' }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: node index.js
         working-directory: scripts/seo-agent
 
       - name: Commit report and data
         run: |
-          git config user.name "SafeBath SEO Agent"
-          git config user.email "seo-agent@safebathgrabbar.com"
+          git config user.name "SEO Agent"
+          git config user.email "seo-agent@reiamplifi.com"
           git add seo-reports/ seo-data/
           git diff --staged --quiet || git commit -m "Weekly SEO report $(date +%Y-%m-%d)"
           git push

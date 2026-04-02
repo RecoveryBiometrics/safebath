@@ -1,13 +1,15 @@
 /**
  * Slack delivery for SEO reports.
- * Posts to #safebath channel via Slack Bot Token (chat.postMessage API).
- * Set SLACK_BOT_TOKEN in GitHub Actions secrets.
+ * Posts to the business's Slack channel via Bot Token (chat.postMessage API).
+ * Set SLACK_BOT_TOKEN and SLACK_CHANNEL_ID in env vars.
  */
 
-const SLACK_CHANNEL = 'C0AQCHCC2JW'; // #safebath
+const config = require('./config');
+
+const SLACK_CHANNEL = config.slackChannelId;
 
 async function sendToSlack(subject, body) {
-  const token = process.env.SLACK_BOT_TOKEN;
+  const token = config.slackBotToken || process.env.SLACK_BOT_TOKEN;
   if (!token) {
     console.warn('No SLACK_BOT_TOKEN set — skipping Slack delivery.');
     return false;
@@ -41,7 +43,7 @@ async function sendToSlack(subject, body) {
       }
     }
 
-    console.log(`Slack message sent to #safebath (${chunks.length} part${chunks.length > 1 ? 's' : ''})`);
+    console.log(`Slack message sent (${chunks.length} part${chunks.length > 1 ? 's' : ''})`);
     return true;
   } catch (err) {
     console.warn(`Slack error: ${err.message}`);

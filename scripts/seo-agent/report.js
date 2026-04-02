@@ -1,18 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const config = require('./config');
 
-const REPORTS_DIR = path.join(__dirname, '../../seo-reports');
-
-// Baseline from Dec 2025 – Mar 2026 (first 90 days of site being live)
-const BASELINE = {
-  clicks: 57,
-  impressions: 3548,
-  ctr: 0.016,
-  avgPosition: 27.9,
-  period: 'Dec 2025 – Mar 2026',
-};
-
-const CHANGELOG_PATH = path.join(__dirname, '../../SEO-CHANGELOG.md');
+const REPORTS_DIR = config.reportsDir;
+const BASELINE = config.baseline;
+const CHANGELOG_PATH = config.changelogPath;
 
 /**
  * Parse SEO-CHANGELOG.md to extract deployed changes and their status.
@@ -71,7 +63,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
-  let md = `# SafeBath SEO Report — ${date}\n\n`;
+  let md = `# ${config.businessName} SEO Report — ${date}\n\n`;
   md += `> Auto-generated from Google Search Console\n`;
   md += `> **Current period:** ${data.currentPeriod.startDate} → ${data.currentPeriod.endDate}\n`;
   md += `> **Prior period:** ${data.priorPeriod.startDate} → ${data.priorPeriod.endDate}\n\n`;
@@ -104,7 +96,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
       md += `### Newly Indexed Pages\n\n`;
       md += `_These pages were on the not-indexed list but are now indexed._\n\n`;
       for (const p of newlyIndexed) {
-        const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
+        const slug = p.url.replace(config.siteBase, '') || '/';
         md += `- ${slug}\n`;
       }
       md += '\n';
@@ -120,7 +112,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
       md += `|------|---------------|------------|-------------|\n`;
       const show = stillNotIndexed.slice(0, 20); // Cap at 20 in report
       for (const p of show) {
-        const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
+        const slug = p.url.replace(config.siteBase, '') || '/';
         const crawl = p.lastCrawlTime ? p.lastCrawlTime.split('T')[0] : '—';
         md += `| ${slug} | ${p.coverageState} | ${crawl} | ${p.pageFetchState || '—'} |\n`;
       }
@@ -150,7 +142,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
     md += `| Page | Now | Was | Change | Clicks |\n`;
     md += `|------|-----|-----|--------|--------|\n`;
     for (const w of wins) {
-      const slug = w.url.replace('https://safebathgrabbar.com', '') || '/';
+      const slug = w.url.replace(config.siteBase, '') || '/';
       md += `| ${slug} | ${fmt(w.position)} | ${fmt(w.priorPosition)} | **+${fmt(w.positionDelta)}** | ${w.clicks} |\n`;
     }
     md += '\n';
@@ -163,7 +155,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
     md += `| Page | Now | Was | Change | Impressions |\n`;
     md += `|------|-----|-----|--------|-------------|\n`;
     for (const d of drops) {
-      const slug = d.url.replace('https://safebathgrabbar.com', '') || '/';
+      const slug = d.url.replace(config.siteBase, '') || '/';
       md += `| ${slug} | ${fmt(d.position)} | ${fmt(d.priorPosition)} | **${fmt(d.positionDelta)}** | ${d.impressions} |\n`;
     }
     md += '\n';
@@ -176,7 +168,7 @@ function generateReport(data, analysis, interpretation, reviewResult, inspection
     md += `| Page | Position | Impressions | CTR |\n`;
     md += `|------|----------|-------------|-----|\n`;
     for (const o of opportunities) {
-      const slug = o.keys[0].replace('https://safebathgrabbar.com', '') || '/';
+      const slug = o.keys[0].replace(config.siteBase, '') || '/';
       md += `| ${slug} | ${fmt(o.position)} | ${o.impressions} | ${(o.ctr * 100).toFixed(2)}% |\n`;
     }
     md += '\n';
@@ -305,9 +297,9 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
   const date = new Date().toISOString().split('T')[0];
   const { currentTotals, priorTotals, wins, drops, opportunities, gaps } = analysis;
 
-  let out = `SafeBath SEO Weekly Update — ${date}\n`;
+  let out = `${config.businessName} SEO Weekly Update — ${date}\n`;
   out += `=`.repeat(45) + `\n\n`;
-  out += `Here's your weekly update on how safebathgrabbar.com is performing in Google search.\n\n`;
+  out += `Here's your weekly update on how ${config.siteBase.replace('https://', '')} is performing in Google search.\n\n`;
 
   // --- Summary ---
   out += `YOUR NUMBERS THIS WEEK\n\n`;
@@ -405,7 +397,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     if (newlyIndexed.length > 0) {
       out += `Good news — ${newlyIndexed.length} new page${newlyIndexed.length > 1 ? 's' : ''} got indexed since last week. That means Google picked them up and they're now eligible to appear in search results:\n\n`;
       for (const p of newlyIndexed) {
-        const slug = p.url.replace('https://safebathgrabbar.com', '') || '/';
+        const slug = p.url.replace(config.siteBase, '') || '/';
         out += `  - ${slug}\n`;
       }
       out += `\n`;
@@ -434,7 +426,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     out += `${wins.length} page${wins.length > 1 ? 's' : ''} moved up in Google rankings this period. `;
     out += `This means people searching for your services are more likely to see these pages:\n\n`;
     for (const w of wins) {
-      const slug = w.url.replace('https://safebathgrabbar.com', '') || '/';
+      const slug = w.url.replace(config.siteBase, '') || '/';
       out += `  ${slug}\n`;
       out += `    Moved from position ${fmt(w.priorPosition)} to ${fmt(w.position)} (up ${fmt(w.positionDelta)} spots). Got ${w.clicks} click${w.clicks !== 1 ? 's' : ''} this period.\n\n`;
     }
@@ -448,7 +440,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     out += `Some movement up and down is completely normal in SEO — Google is constantly re-evaluating pages. `;
     out += `Here's what we saw:\n\n`;
     for (const d of drops) {
-      const slug = d.url.replace('https://safebathgrabbar.com', '') || '/';
+      const slug = d.url.replace(config.siteBase, '') || '/';
       out += `  ${slug}\n`;
       out += `    Went from position ${fmt(d.priorPosition)} to ${fmt(d.position)} (down ${fmt(Math.abs(d.positionDelta))} spots, ${d.impressions} impression${d.impressions !== 1 ? 's' : ''})\n\n`;
     }
@@ -462,7 +454,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     out += `These pages are ranking between positions 8–20 — meaning they're close to Google's first page. `;
     out += `With some targeted improvements like better title tags or a few internal links, we can push them onto page 1 where most clicks happen:\n\n`;
     for (const o of opportunities) {
-      const slug = o.keys[0].replace('https://safebathgrabbar.com', '') || '/';
+      const slug = o.keys[0].replace(config.siteBase, '') || '/';
       out += `  ${slug}\n`;
       out += `    Currently at position ${fmt(o.position)} with ${o.impressions} impressions and ${(o.ctr * 100).toFixed(2)}% click-through rate.\n\n`;
     }
@@ -487,7 +479,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     if (interpretation.attributions.length > 0) {
       out += `We were able to connect ${reviewResult.stats.totalAttributed} ranking change${reviewResult.stats.totalAttributed !== 1 ? 's' : ''} to specific work we've done on the site:\n\n`;
       for (const attr of interpretation.attributions) {
-        const slug = attr.url.replace('https://safebathgrabbar.com', '') || attr.url;
+        const slug = attr.url.replace(config.siteBase, '') || attr.url;
         const dir = attr.direction === 'up' ? 'improved' : 'dropped';
         const deltaDir = attr.direction === 'up' ? 'up' : 'down';
         out += `  ${slug} ${dir} from position ${fmt(attr.positionWas)} to ${fmt(attr.positionNow)} (${deltaDir} ${fmt(Math.abs(attr.delta))} spots). `;
@@ -504,7 +496,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
     if (interpretation.boostedOpportunities.length > 0) {
       out += `Some of our recent work is helping pages that are close to page 1:\n\n`;
       for (const opp of interpretation.boostedOpportunities) {
-        const slug = opp.url.replace('https://safebathgrabbar.com', '') || opp.url;
+        const slug = opp.url.replace(config.siteBase, '') || opp.url;
         out += `  ${slug} is at position ${fmt(opp.position)} with ${opp.impressions} impressions — and our "${opp.change}" update from ${opp.weeksAgo} weeks ago is helping it climb.\n`;
       }
       out += `\n`;
@@ -548,7 +540,7 @@ function generateEmailBody(data, analysis, interpretation, reviewResult, inspect
 
   out += `—\n\n`;
   out += `That's it for this week. Next update drops here automatically next Tuesday at 9am ET.\n\n`;
-  out += `— SafeBath SEO Agent\n`;
+  out += `— ${config.businessName} SEO Agent\n`;
 
   return out;
 }
